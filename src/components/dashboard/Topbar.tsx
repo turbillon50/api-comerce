@@ -1,46 +1,60 @@
 "use client";
 
-import { useAppStore, walletBalance } from "@/store/use-app-store";
-import { Icon } from "@/components/ui/icon";
-import Link from "next/link";
+import { MS } from "@/components/ui/MS";
 
-export function Topbar({ title, subtitle }: { title: string; subtitle?: string }) {
-  const wallet = useAppStore((s) => s.wallet);
-  const balance = walletBalance(wallet);
-
+export function Topbar({ subtitle }: { subtitle?: string }) {
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center justify-between gap-4 border-b border-line/20 bg-bg/70 px-6 backdrop-blur-xl">
-      <div className="min-w-0">
-        <h1 className="truncate text-lg font-semibold tracking-tight">{title}</h1>
-        {subtitle ? <p className="truncate text-xs text-ink-muted">{subtitle}</p> : null}
-      </div>
-
-      <div className="flex items-center gap-3">
-        <div className="hidden sm:flex hairline bg-bg-2/70 rounded-lg px-3 py-1.5 text-xs items-center gap-2">
-          <Icon name="search" className="h-3.5 w-3.5 text-ink-muted" />
-          <input
-            placeholder="Buscar blend, key, modelo…"
-            className="w-44 bg-transparent text-xs focus:outline-none placeholder:text-ink-muted/60"
-          />
-          <span className="label-caps text-ink-muted">⌘K</span>
+    <header className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-gutter h-16 bg-surface/60 backdrop-blur-xl border-b border-outline-variant/30">
+      <div className="flex items-center gap-md">
+        <MS name="terminal" className="text-primary-fixed-dim" />
+        <div className="flex flex-col leading-tight">
+          <h1 className="font-jetbrains-mono text-headline-md font-bold text-primary-fixed-dim drop-shadow-[0_0_8px_rgba(0,227,131,0.5)] uppercase tracking-tighter">
+            APICOMERCE
+          </h1>
+          {subtitle ? (
+            <span className="font-label-caps text-on-surface-variant opacity-70">{subtitle}</span>
+          ) : (
+            <span className="font-label-caps text-on-surface-variant opacity-70">
+              Infrastructure for AI Consumption
+            </span>
+          )}
         </div>
-
-        <Link
-          href="/dashboard/wallet"
-          className="flex items-center gap-2 rounded-lg hairline bg-bg-2/70 px-3 py-1.5 text-xs hover:border-primary/40 transition-colors"
-        >
-          <Icon name="wallet" className="h-3.5 w-3.5 text-primary" />
-          <span className="code text-ink">${balance.toFixed(2)}</span>
-        </Link>
-
-        <Link
-          href="/dashboard/blends/new"
-          className="hidden md:inline-flex items-center gap-1.5 rounded-lg bg-primary px-3 py-1.5 text-xs font-bold text-primary-ink hover:brightness-110"
-        >
-          <Icon name="plus" className="h-3.5 w-3.5" />
-          Nuevo blend
-        </Link>
+      </div>
+      <div className="flex items-center gap-md">
+        <div className="hidden md:flex items-center gap-sm px-3 py-1 bg-surface-container-high rounded-full border border-outline-variant/20">
+          <span className="w-2 h-2 rounded-full bg-primary-fixed-dim animate-pulse" />
+          <span className="font-label-caps text-label-caps text-primary-fixed-dim">SYSTEM ONLINE</span>
+        </div>
+        <MS name="sensors" className="text-primary-fixed-dim" />
       </div>
     </header>
+  );
+}
+
+export function BottomNav({ active }: { active: "nodes" | "traffic" | "mascot" | "logs" | "admin" }) {
+  const items: { key: typeof active; icon: string; label: string; href: string }[] = [
+    { key: "nodes", icon: "hub", label: "Nodes", href: "/dashboard" },
+    { key: "traffic", icon: "insights", label: "Traffic", href: "/dashboard/requests" },
+    { key: "mascot", icon: "smart_toy", label: "Mascot", href: "/dashboard/agent" },
+    { key: "logs", icon: "code", label: "Logs", href: "/dashboard/docs" },
+    { key: "admin", icon: "settings", label: "Admin", href: "/dashboard/providers" },
+  ];
+  return (
+    <nav className="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 h-20 bg-surface-container-lowest/80 backdrop-blur-lg border-t border-secondary-container/20">
+      {items.map((i) => (
+        <a
+          key={i.key}
+          href={i.href}
+          className={
+            i.key === active
+              ? "flex flex-col items-center justify-center text-primary-fixed-dim font-bold scale-110 drop-shadow-[0_0_5px_rgba(0,227,131,0.4)]"
+              : "flex flex-col items-center justify-center text-on-surface-variant/60 hover:text-secondary-fixed"
+          }
+        >
+          <MS name={i.icon} fill={i.key === active} />
+          <span className="font-label-caps text-[10px]">{i.label}</span>
+        </a>
+      ))}
+    </nav>
   );
 }

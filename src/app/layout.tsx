@@ -2,9 +2,9 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "APICommerce · The intelligence layer for AI commerce",
+  title: "APICommerce · Infrastructure for the Decentralized Web",
   description:
-    "Revende tokens de OpenRouter como mezclas dedicadas. Crea blends multi-proveedor, mide márgenes y opera con un agente residente.",
+    "Deploy high-performance AI Blends with the ease of a storefront. Scale globally across distributed nodes without the overhead of traditional cloud legacy.",
   manifest: "/manifest.webmanifest",
   applicationName: "APICommerce",
   appleWebApp: {
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#050505",
+  themeColor: "#131313",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
@@ -29,18 +29,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="es" className="dark">
       <head>
-        <link
-          rel="preconnect"
-          href="https://fonts.googleapis.com"
-          crossOrigin=""
-        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+        />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
         />
       </head>
-      <body className="min-h-screen bg-bg text-ink antialiased">
+      <body className="bg-background text-on-background antialiased">
         {children}
         <script
           dangerouslySetInnerHTML={{
