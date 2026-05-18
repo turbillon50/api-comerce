@@ -1,11 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useState } from "react";
-import { Button } from "@/components/ui/buttons";
-import { TextInput, Label } from "@/components/ui/inputs";
-import { Icon } from "@/components/ui/icon";
+import { MS } from "@/components/ui/MS";
 import { useAppStore } from "@/store/use-app-store";
 
 export default function LoginPage() {
@@ -13,58 +11,67 @@ export default function LoginPage() {
   const signIn = useAppStore((s) => s.signIn);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [busy, setBusy] = useState(false);
 
-  function onSubmit(e: React.FormEvent) {
+  function submit(e: React.FormEvent) {
     e.preventDefault();
-    setBusy(true);
-    signIn(email);
+    signIn(email || "demo@apicommerce.io");
     router.push("/dashboard");
   }
 
   return (
-    <div className="w-full max-w-md">
-      <div className="glass rounded-2xl p-8 shadow-glow-secondary">
-        <div className="pill pill-info mb-5 w-fit">
-          <Icon name="lock" className="h-3.5 w-3.5" />
-          Acceso al panel
+    <div className="glass-card p-lg md:p-xl rounded-2xl space-y-lg">
+      <div className="space-y-sm text-center">
+        <div className="w-16 h-16 mx-auto rounded-2xl bg-primary-container/10 flex items-center justify-center border border-primary-container/20">
+          <MS name="login" className="text-primary-container" />
         </div>
-        <h1 className="text-2xl font-semibold mb-1">Bienvenido de vuelta</h1>
-        <p className="text-sm text-ink-dim mb-7">Continúa donde dejaste tu operación.</p>
+        <h1 className="font-headline-lg text-headline-lg text-primary">Welcome back</h1>
+        <p className="text-on-surface-variant font-body-md">Sign in to access your console.</p>
+      </div>
 
-        <form onSubmit={onSubmit} className="space-y-4">
-          <div>
-            <Label>Email</Label>
-            <TextInput
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="tu@empresa.io"
-              required
-            />
-          </div>
-          <div>
-            <Label hint="¿Olvidaste tu contraseña?">Contraseña</Label>
-            <TextInput
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-              required
-            />
-          </div>
-          <Button type="submit" disabled={busy} className="w-full justify-center py-3.5">
-            {busy ? <Icon name="spinner" className="h-4 w-4 animate-spin" /> : "Entrar"}
-            {!busy ? <Icon name="arrow" className="h-4 w-4" /> : null}
-          </Button>
-        </form>
-
-        <div className="mt-6 border-t border-line/30 pt-5 text-center text-sm text-ink-dim">
-          ¿Aún no tienes cuenta?{" "}
-          <Link href="/auth/register" className="text-primary hover:underline">
-            Crea una gratis
-          </Link>
+      <form onSubmit={submit} className="space-y-md">
+        <div>
+          <label className="font-label-caps text-label-caps text-on-surface-variant block mb-xs uppercase">
+            Email
+          </label>
+          <input
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            type="email"
+            className="w-full bg-surface-container-high border border-outline-variant/40 rounded-lg px-md py-3 font-jetbrains-mono text-body-md focus:ring-1 focus:ring-primary-fixed-dim focus:border-primary-fixed-dim"
+            placeholder="you@company.io"
+          />
         </div>
+        <div>
+          <label className="font-label-caps text-label-caps text-on-surface-variant block mb-xs uppercase">
+            Password
+          </label>
+          <input
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            type="password"
+            className="w-full bg-surface-container-high border border-outline-variant/40 rounded-lg px-md py-3 font-jetbrains-mono text-body-md focus:ring-1 focus:ring-primary-fixed-dim focus:border-primary-fixed-dim"
+            placeholder="••••••••"
+          />
+        </div>
+        <button
+          type="submit"
+          className="w-full py-md bg-primary-container text-on-primary font-headline-md text-body-md rounded-lg emerald-glow active:scale-95 transition-all"
+        >
+          Enter Console
+        </button>
+      </form>
+
+      <div className="text-center text-on-surface-variant text-body-sm">
+        New here?{" "}
+        <Link href="/auth/register" className="text-primary-fixed-dim hover:underline">
+          Create an account
+        </Link>
+      </div>
+
+      <div className="border-t border-outline-variant/20 pt-md">
+        <p className="text-center text-[10px] font-label-caps text-on-surface-variant uppercase">
+          Demo: any email signs in instantly
+        </p>
       </div>
     </div>
   );

@@ -1,116 +1,107 @@
 "use client";
 
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useState } from "react";
-import { Button } from "@/components/ui/buttons";
-import { TextInput, Label } from "@/components/ui/inputs";
-import { Icon } from "@/components/ui/icon";
+import { MS } from "@/components/ui/MS";
 import { useAppStore } from "@/store/use-app-store";
 
 export default function RegisterPage() {
   const router = useRouter();
   const signUp = useAppStore((s) => s.signUp);
-  const [form, setForm] = useState({ name: "", email: "", org: "", password: "" });
-  const [submitting, setSubmitting] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [org, setOrg] = useState("");
+  const [password, setPassword] = useState("");
 
-  function update<K extends keyof typeof form>(k: K, v: string) {
-    setForm((f) => ({ ...f, [k]: v }));
-  }
-
-  function onSubmit(e: React.FormEvent) {
+  function submit(e: React.FormEvent) {
     e.preventDefault();
-    setSubmitting(true);
-    signUp(form);
+    signUp({
+      name: name || "Operator",
+      email: email || "founder@apicommerce.io",
+      org: org || "APICommerce Labs",
+      password: password || "demo",
+    });
     router.push("/dashboard");
   }
 
   return (
-    <div className="grid w-full max-w-5xl grid-cols-1 gap-10 lg:grid-cols-[1.1fr_1fr] items-center">
-      <div className="hidden lg:block">
-        <div className="pill pill-success mb-5 w-fit">
-          <Icon name="sparkles" className="h-3.5 w-3.5" />
-          Plan Starter · gratis
+    <div className="glass-card p-lg md:p-xl rounded-2xl space-y-lg">
+      <div className="space-y-sm text-center">
+        <div className="w-16 h-16 mx-auto rounded-2xl bg-secondary/10 flex items-center justify-center border border-secondary/20">
+          <MS name="rocket_launch" className="text-secondary" />
         </div>
-        <h1 className="text-4xl font-semibold leading-tight tracking-tight mb-5">
-          Crea tu cuenta y arma tu primer <span className="text-gradient">blend</span> en 90 segundos.
-        </h1>
-        <p className="text-ink-dim mb-8 max-w-md">
-          Sin tarjeta de crédito. Te damos 1M de tokens incluidos para que pruebes el routing multi-proveedor con tus propios prompts.
+        <h1 className="font-headline-lg text-headline-lg text-primary">Create your account</h1>
+        <p className="text-on-surface-variant font-body-md">
+          Free tier includes 50,000 requests / month.
         </p>
-        <ul className="space-y-3 text-sm">
-          {[
-            "5 blends activos al instante",
-            "Wallet con top-up Stripe",
-            "API keys con presupuesto mensual",
-            "Agente Prism con memoria 30 días",
-          ].map((f) => (
-            <li key={f} className="flex items-center gap-2 text-ink-dim">
-              <Icon name="check" className="h-4 w-4 text-primary" /> {f}
-            </li>
-          ))}
-        </ul>
       </div>
 
-      <div className="glass rounded-2xl p-8 shadow-glow-primary">
-        <h2 className="mb-1 text-xl font-semibold">Crea tu cuenta</h2>
-        <p className="mb-7 text-sm text-ink-dim">Usa tu email corporativo para acceso a marketplace.</p>
-
-        <form onSubmit={onSubmit} className="space-y-4">
+      <form onSubmit={submit} className="space-y-md">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-md">
           <div>
-            <Label>Nombre completo</Label>
-            <TextInput
-              value={form.name}
-              onChange={(e) => update("name", e.target.value)}
-              placeholder="Sofía Reyes"
-              required
+            <label className="font-label-caps text-label-caps text-on-surface-variant block mb-xs uppercase">
+              First Name
+            </label>
+            <input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full bg-surface-container-high border border-outline-variant/40 rounded-lg px-md py-3 font-jetbrains-mono text-body-sm focus:ring-1 focus:ring-primary-fixed-dim focus:border-primary-fixed-dim"
+              placeholder="Operator"
             />
           </div>
           <div>
-            <Label>Email de trabajo</Label>
-            <TextInput
-              type="email"
-              value={form.email}
-              onChange={(e) => update("email", e.target.value)}
-              placeholder="sofia@empresa.io"
-              required
+            <label className="font-label-caps text-label-caps text-on-surface-variant block mb-xs uppercase">
+              Org
+            </label>
+            <input
+              value={org}
+              onChange={(e) => setOrg(e.target.value)}
+              className="w-full bg-surface-container-high border border-outline-variant/40 rounded-lg px-md py-3 font-jetbrains-mono text-body-sm focus:ring-1 focus:ring-primary-fixed-dim focus:border-primary-fixed-dim"
+              placeholder="APICommerce Labs"
             />
           </div>
-          <div>
-            <Label>Organización</Label>
-            <TextInput
-              value={form.org}
-              onChange={(e) => update("org", e.target.value)}
-              placeholder="Estudio Turbillón"
-              required
-            />
-          </div>
-          <div>
-            <Label hint="mínimo 8 caracteres">Contraseña</Label>
-            <TextInput
-              type="password"
-              value={form.password}
-              onChange={(e) => update("password", e.target.value)}
-              placeholder="••••••••"
-              minLength={8}
-              required
-            />
-          </div>
-          <Button type="submit" disabled={submitting} className="w-full justify-center py-3.5">
-            {submitting ? <Icon name="spinner" className="h-4 w-4 animate-spin" /> : "Crear cuenta"}
-            {!submitting ? <Icon name="arrow" className="h-4 w-4" /> : null}
-          </Button>
-          <p className="text-center text-xs text-ink-muted">
-            Al continuar aceptas nuestros Términos y la política de uso responsable de modelos AI.
-          </p>
-        </form>
-
-        <div className="mt-6 border-t border-line/30 pt-5 text-center text-sm text-ink-dim">
-          ¿Ya tienes cuenta?{" "}
-          <Link href="/auth/login" className="text-primary hover:underline">
-            Inicia sesión
-          </Link>
         </div>
+        <div>
+          <label className="font-label-caps text-label-caps text-on-surface-variant block mb-xs uppercase">
+            Work Email
+          </label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full bg-surface-container-high border border-outline-variant/40 rounded-lg px-md py-3 font-jetbrains-mono text-body-sm focus:ring-1 focus:ring-primary-fixed-dim focus:border-primary-fixed-dim"
+            placeholder="founder@company.io"
+          />
+        </div>
+        <div>
+          <label className="font-label-caps text-label-caps text-on-surface-variant block mb-xs uppercase">
+            Password
+          </label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full bg-surface-container-high border border-outline-variant/40 rounded-lg px-md py-3 font-jetbrains-mono text-body-sm focus:ring-1 focus:ring-primary-fixed-dim focus:border-primary-fixed-dim"
+            placeholder="••••••••"
+          />
+        </div>
+        <button
+          type="submit"
+          className="w-full py-md bg-primary-container text-on-primary font-headline-md text-body-md rounded-lg emerald-glow active:scale-95 transition-all"
+        >
+          Create Free Account
+        </button>
+        <p className="text-center text-label-sm font-label-caps text-on-surface-variant uppercase">
+          By signing up, you agree to our Terms of Service.
+        </p>
+      </form>
+
+      <div className="text-center text-on-surface-variant text-body-sm">
+        Already a member?{" "}
+        <Link href="/auth/login" className="text-primary-fixed-dim hover:underline">
+          Sign in
+        </Link>
       </div>
     </div>
   );

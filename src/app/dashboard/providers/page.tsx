@@ -1,164 +1,116 @@
 "use client";
 
 import { useState } from "react";
-import { Topbar } from "@/components/dashboard/Topbar";
-import { Panel } from "@/components/ui/card";
-import { Button } from "@/components/ui/buttons";
-import { TextInput, Label } from "@/components/ui/inputs";
-import { Icon } from "@/components/ui/icon";
+import { MS } from "@/components/ui/MS";
+import { BottomNav } from "@/components/dashboard/Topbar";
 import { useAppStore } from "@/store/use-app-store";
-import { PROVIDER_MODELS } from "@/lib/catalog";
 
 const PROVIDERS = [
   {
     id: "openrouter",
     name: "OpenRouter",
-    blurb: "Gateway unificado a Anthropic, OpenAI, Google, Meta, DeepSeek y más.",
-    status: "primary",
-    docsHref: "https://openrouter.ai/docs",
+    icon: "hub",
+    description: "Unified gateway across 100+ frontier models — auto-routing and failover included.",
+    status: "PRIMARY",
+    iconClass: "text-primary-fixed-dim",
   },
   {
-    id: "anthropic-direct",
-    name: "Anthropic (directo)",
-    blurb: "Conexión directa para latencia mínima en Claude. Próximamente.",
-    status: "coming",
+    id: "anthropic",
+    name: "Anthropic Direct",
+    icon: "diamond",
+    description: "Claude 4.7 Opus, 4.6 Sonnet, 4.5 Haiku — long-context reasoning and tool use.",
+    status: "BACKUP",
+    iconClass: "text-tertiary-fixed-dim",
   },
   {
-    id: "openai-direct",
-    name: "OpenAI (directo)",
-    blurb: "Acceso a GPT-5/Realtime sin intermediario. Próximamente.",
-    status: "coming",
+    id: "openai",
+    name: "OpenAI Direct",
+    icon: "rocket",
+    description: "GPT-4 Turbo for high-volume conversational and structured outputs.",
+    status: "BACKUP",
+    iconClass: "text-secondary-fixed-dim",
   },
   {
-    id: "mistral-direct",
-    name: "Mistral (directo)",
-    blurb: "Para volumen de Mixtral/Codestral. Próximamente.",
-    status: "coming",
+    id: "mistral",
+    name: "Mistral Direct",
+    icon: "memory",
+    description: "Cost-efficient European inference with low latency for EU traffic.",
+    status: "STAND-BY",
+    iconClass: "text-on-surface-variant",
   },
 ];
 
 export default function ProvidersPage() {
-  const openrouterKey = useAppStore((s) => s.openrouterKey);
-  const setOpenrouterKey = useAppStore((s) => s.setOpenrouterKey);
-  const [draft, setDraft] = useState(openrouterKey);
-  const connected = !!openrouterKey;
+  const orKey = useAppStore((s) => s.openrouterKey);
+  const setOrKey = useAppStore((s) => s.setOpenrouterKey);
+  const [local, setLocal] = useState(orKey);
 
   return (
     <>
-      <Topbar title="Proveedores" subtitle="Conecta gateways y selecciona modelos disponibles." />
-      <main className="flex-1 p-6 lg:p-8 overflow-y-auto scrollbar-thin">
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-          {PROVIDERS.map((p) => (
-            <Panel key={p.id} className="!p-6">
-              <div className="mb-4 flex items-start justify-between">
-                <div>
-                  <h3 className="text-base font-semibold">{p.name}</h3>
-                  <p className="mt-1 text-sm text-ink-dim max-w-md">{p.blurb}</p>
-                </div>
-                {p.id === "openrouter" ? (
-                  <span className={connected ? "pill pill-success" : "pill pill-warn"}>
-                    {connected ? "conectado" : "pendiente"}
+      <main className="px-margin-mobile md:px-margin-desktop py-lg max-w-container-max mx-auto">
+        <section className="mb-lg">
+          <p className="font-label-caps text-label-caps text-primary-fixed-dim mb-xs uppercase">
+            Admin / Upstream
+          </p>
+          <h2 className="font-headline-lg text-headline-lg text-primary">Providers</h2>
+          <p className="text-on-surface-variant font-body-md mt-sm max-w-2xl">
+            Configure the upstream providers that power your blends. Failover is automatic — if a primary provider
+            misbehaves, the router shifts traffic instantly.
+          </p>
+        </section>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+          <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-gutter">
+            {PROVIDERS.map((p) => (
+              <div key={p.id} className="glass-card rounded-xl p-lg flex flex-col">
+                <div className="flex items-start justify-between mb-md">
+                  <div className="flex items-center gap-sm">
+                    <div className="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center">
+                      <MS name={p.icon} className={p.iconClass} />
+                    </div>
+                    <h3 className="font-headline-md text-headline-md text-primary">{p.name}</h3>
+                  </div>
+                  <span
+                    className={`font-label-caps text-label-caps ${p.id === "openrouter" ? "text-primary-fixed-dim bg-primary-fixed-dim/10" : "text-on-surface-variant bg-on-surface-variant/10"} px-sm py-xs rounded`}
+                  >
+                    {p.status}
                   </span>
-                ) : (
-                  <span className="pill pill-warn">coming soon</span>
-                )}
+                </div>
+                <p className="text-on-surface-variant text-body-sm flex-1">{p.description}</p>
               </div>
+            ))}
+          </div>
 
-              {p.id === "openrouter" ? (
-                <div className="space-y-3">
-                  <div>
-                    <Label hint="se almacena cifrada en producción">API key</Label>
-                    <TextInput
-                      type="password"
-                      value={draft}
-                      onChange={(e) => setDraft(e.target.value)}
-                      placeholder="sk-or-v1-…"
-                    />
-                  </div>
-                  <div className="flex gap-2">
-                    <Button onClick={() => setOpenrouterKey(draft)} disabled={!draft}>
-                      <Icon name="check" className="h-4 w-4" />
-                      Guardar
-                    </Button>
-                    {connected ? (
-                      <Button
-                        variant="ghost"
-                        onClick={() => {
-                          setOpenrouterKey("");
-                          setDraft("");
-                        }}
-                      >
-                        <Icon name="alert" className="h-4 w-4" />
-                        Desconectar
-                      </Button>
-                    ) : null}
-                  </div>
-                  <p className="text-[11px] text-ink-muted">
-                    En servidor, expone <code className="text-ink">OPENROUTER_API_KEY</code> en tu entorno para que el proxy
-                    use claves reales. La interfaz de cliente queda como atajo para usuarios bring-your-own-key.
-                  </p>
-                </div>
-              ) : (
-                <div className="space-y-3">
-                  <Button variant="ghost" disabled>
-                    <Icon name="lock" className="h-4 w-4" />
-                    Conectar (próximamente)
-                  </Button>
-                  <p className="text-[11px] text-ink-muted">
-                    Mientras tanto, accede al mismo modelo a través de OpenRouter.
-                  </p>
-                </div>
-              )}
-            </Panel>
-          ))}
-        </div>
-
-        <Panel className="mt-6 !p-0 overflow-hidden">
-          <div className="flex items-center justify-between border-b border-line/30 px-6 py-4">
+          <div className="glass-card p-lg rounded-xl space-y-md">
+            <h3 className="font-label-caps text-label-caps text-secondary-fixed-dim">OPENROUTER CREDENTIALS</h3>
+            <p className="text-body-sm text-on-surface-variant">
+              Bring your own OpenRouter API key. Stored locally in your browser only — never sent to APICommerce
+              servers.
+            </p>
             <div>
-              <div className="label-caps text-primary-dim mb-1">Catálogo curado</div>
-              <h3 className="text-base font-semibold">Modelos disponibles para tus blends</h3>
+              <label className="font-label-caps text-label-caps text-on-surface-variant block mb-xs uppercase">
+                API Key
+              </label>
+              <input
+                value={local}
+                onChange={(e) => setLocal(e.target.value)}
+                placeholder="sk-or-v1-…"
+                className="w-full bg-surface-container-lowest border border-outline-variant/40 rounded-lg px-md py-3 font-jetbrains-mono text-body-sm focus:ring-1 focus:ring-primary-fixed-dim focus:border-primary-fixed-dim"
+              />
             </div>
-            <span className="text-xs text-ink-muted">{PROVIDER_MODELS.length} modelos</span>
+            <button
+              onClick={() => setOrKey(local)}
+              className="w-full py-md bg-primary-container text-on-primary font-label-caps text-label-caps rounded uppercase hover:brightness-110 transition-all"
+            >
+              SAVE CREDENTIALS
+            </button>
+            {orKey && (
+              <p className="font-jetbrains-mono text-xs text-primary-fixed-dim">● {orKey.slice(0, 12)}… stored</p>
+            )}
           </div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-xs">
-              <thead className="text-ink-muted">
-                <tr>
-                  <th className="px-6 py-2.5 text-left label-caps">Modelo</th>
-                  <th className="px-3 py-2.5 text-left label-caps">Proveedor</th>
-                  <th className="px-3 py-2.5 text-right label-caps">Contexto</th>
-                  <th className="px-3 py-2.5 text-right label-caps">Input</th>
-                  <th className="px-3 py-2.5 text-right label-caps">Output</th>
-                  <th className="px-6 py-2.5 text-left label-caps">Fortalezas</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-line/15 code">
-                {PROVIDER_MODELS.map((m) => (
-                  <tr key={m.id} className="hover:bg-bg-2/40">
-                    <td className="px-6 py-2.5 text-ink">{m.name}</td>
-                    <td className="px-3 py-2.5 text-ink-dim">{m.provider}</td>
-                    <td className="px-3 py-2.5 text-right text-ink-dim">
-                      {m.context.toLocaleString()}
-                    </td>
-                    <td className="px-3 py-2.5 text-right text-secondary">${m.inputPrice}</td>
-                    <td className="px-3 py-2.5 text-right text-secondary">${m.outputPrice}</td>
-                    <td className="px-6 py-2.5">
-                      <div className="flex flex-wrap gap-1">
-                        {m.strengths.map((s) => (
-                          <span key={s} className="pill pill-info !py-0.5 !px-2">
-                            {s}
-                          </span>
-                        ))}
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </Panel>
+        </div>
       </main>
+      <BottomNav active="admin" />
     </>
   );
 }

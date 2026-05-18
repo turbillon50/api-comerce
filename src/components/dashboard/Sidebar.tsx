@@ -2,95 +2,65 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { cn } from "@/lib/cn";
-import { Icon, type IconKey } from "@/components/ui/icon";
-import { useAppStore } from "@/store/use-app-store";
-import { useRouter } from "next/navigation";
+import { MS } from "@/components/ui/MS";
 
-const NAV: { href: string; label: string; icon: IconKey }[] = [
-  { href: "/dashboard", label: "Resumen", icon: "home" },
-  { href: "/dashboard/blends", label: "Blends", icon: "layers" },
-  { href: "/dashboard/keys", label: "API Keys", icon: "key" },
-  { href: "/dashboard/requests", label: "Requests", icon: "activity" },
-  { href: "/dashboard/wallet", label: "Wallet", icon: "wallet" },
-  { href: "/dashboard/providers", label: "Proveedores", icon: "network" },
-  { href: "/dashboard/agent", label: "Agente Prism", icon: "bot" },
-  { href: "/dashboard/docs", label: "Docs & API", icon: "files" },
+type NavItem = { href: string; label: string; icon: string };
+
+const NAV: NavItem[] = [
+  { href: "/dashboard", label: "Cluster Health", icon: "health_and_safety" },
+  { href: "/dashboard/blends", label: "API Routing", icon: "alt_route" },
+  { href: "/dashboard/requests", label: "Usage Quotas", icon: "data_usage" },
+  { href: "/dashboard/keys", label: "Security Keys", icon: "vpn_key" },
+  { href: "/dashboard/wallet", label: "Wallet", icon: "account_balance_wallet" },
+  { href: "/dashboard/providers", label: "Providers", icon: "hub" },
+  { href: "/dashboard/agent", label: "Mascot Module", icon: "smart_toy" },
+  { href: "/dashboard/docs", label: "Docs / API", icon: "code" },
 ];
 
 export function Sidebar() {
   const pathname = usePathname();
-  const user = useAppStore((s) => s.user);
-  const signOut = useAppStore((s) => s.signOut);
-  const router = useRouter();
-
   return (
-    <aside className="hidden lg:flex w-[260px] shrink-0 flex-col border-r border-line/20 bg-bg-surface/80 backdrop-blur-md">
-      <div className="px-5 py-6">
-        <Link href="/" className="flex items-center gap-3">
-          <div className="grid h-9 w-9 place-items-center rounded-lg bg-primary text-primary-ink shadow-glow-primary">
-            <span className="font-bold">A</span>
+    <aside className="hidden lg:flex fixed left-0 top-16 bottom-0 w-[280px] bg-surface-container border-r border-outline-variant flex-col py-md z-40">
+      <div className="px-md mb-lg">
+        <div className="flex items-center gap-md p-md bg-surface-container-low rounded-lg border border-outline-variant/20">
+          <div className="w-10 h-10 rounded bg-primary-container flex items-center justify-center text-on-primary font-bold">
+            IR
           </div>
-          <div className="leading-tight">
-            <div className="text-sm font-bold">APICommerce</div>
-            <div className="label-caps text-ink-muted">Console</div>
+          <div>
+            <p className="font-jetbrains-mono text-secondary-fixed-dim text-sm font-bold">INFRA_ROOT</p>
+            <p className="text-on-surface-variant text-[10px] uppercase tracking-widest">apicommerce-v1.0.4</p>
           </div>
-        </Link>
+        </div>
       </div>
 
-      <nav className="flex-1 px-3 py-2 space-y-1">
+      <nav className="flex flex-col gap-xs flex-1 overflow-y-auto custom-scrollbar">
         {NAV.map((item) => {
           const active =
-            pathname === item.href ||
-            (item.href !== "/dashboard" && pathname?.startsWith(item.href));
+            pathname === item.href || (item.href !== "/dashboard" && pathname?.startsWith(item.href));
           return (
             <Link
               key={item.href}
               href={item.href}
-              className={cn(
-                "group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors",
+              className={
                 active
-                  ? "bg-primary/10 text-primary border border-primary/30"
-                  : "text-ink-dim hover:bg-bg-3/60 hover:text-ink border border-transparent",
-              )}
+                  ? "bg-secondary-container/10 text-secondary-fixed-dim border-l-4 border-secondary-fixed-dim px-4 py-3 flex items-center gap-md transition-all"
+                  : "text-on-surface-variant px-4 py-3 flex items-center gap-md hover:bg-surface-container-high transition-all"
+              }
             >
-              <Icon name={item.icon} className="h-4 w-4 shrink-0" />
-              <span className="truncate">{item.label}</span>
-              {active ? (
-                <span className="ml-auto h-1.5 w-1.5 rounded-full bg-primary animate-pulse-soft" />
-              ) : null}
+              <MS name={item.icon} />
+              <span className="font-body-lg text-body-lg">{item.label}</span>
             </Link>
           );
         })}
       </nav>
 
-      <div className="border-t border-line/20 p-3">
-        <div className="rounded-lg hairline bg-bg-2/60 p-3">
-          <div className="flex items-center gap-3">
-            <div className="grid h-9 w-9 place-items-center rounded-full bg-secondary/15 text-secondary">
-              <Icon name="users" className="h-4 w-4" />
-            </div>
-            <div className="min-w-0 flex-1">
-              <div className="truncate text-sm font-semibold">{user?.name ?? "Invitado"}</div>
-              <div className="truncate text-[11px] text-ink-muted">{user?.org ?? "—"}</div>
-            </div>
-            <button
-              title="Salir"
-              onClick={() => {
-                signOut();
-                router.push("/");
-              }}
-              className="text-ink-muted hover:text-ink"
-            >
-              <Icon name="logOut" className="h-4 w-4" />
-            </button>
+      <div className="px-md mt-auto">
+        <div className="p-md rounded-lg bg-surface-container-highest/30 border border-outline-variant/10">
+          <div className="flex justify-between items-center mb-2">
+            <span className="font-label-caps text-label-caps text-on-surface-variant">NODE STATUS</span>
+            <span className="w-2 h-2 rounded-full bg-primary-fixed shadow-[0_0_8px_#00e383]" />
           </div>
-          <div className="mt-2.5 flex items-center justify-between">
-            <span className="pill pill-success">{user?.plan ?? "starter"}</span>
-            <Link href="/dashboard/wallet" className="text-[11px] code text-ink-muted hover:text-ink">
-              Wallet →
-            </Link>
-          </div>
+          <p className="font-jetbrains-mono text-[10px] text-primary-fixed-dim">REGION: EU-WEST-1 (PROD)</p>
         </div>
       </div>
     </aside>

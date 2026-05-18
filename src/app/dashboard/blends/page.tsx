@@ -1,171 +1,152 @@
 "use client";
 
-import { useState, useMemo } from "react";
 import Link from "next/link";
-import { Topbar } from "@/components/dashboard/Topbar";
-import { Panel } from "@/components/ui/card";
-import { Icon } from "@/components/ui/icon";
-import { Button } from "@/components/ui/buttons";
+import { MS } from "@/components/ui/MS";
+import { BottomNav } from "@/components/dashboard/Topbar";
 import { useAppStore } from "@/store/use-app-store";
-import { modelById, USE_CASES } from "@/lib/catalog";
-
-const FILTERS = [
-  { id: "all", label: "Todos" },
-  ...USE_CASES.map((u) => ({ id: u.id, label: u.label })),
-];
+import { BLENDS } from "@/lib/catalog";
+import { ACCENT_TEXT, ACCENT_BORDER_L, ACCENT_BG_SOFT, ACCENT_SHADOW } from "@/lib/accent";
 
 export default function BlendsPage() {
   const blends = useAppStore((s) => s.blends);
-  const deleteBlend = useAppStore((s) => s.deleteBlend);
-  const [filter, setFilter] = useState("all");
-  const [query, setQuery] = useState("");
-
-  const filtered = useMemo(() => {
-    return blends.filter((b) => {
-      if (filter !== "all" && b.useCase !== filter) return false;
-      if (query && !`${b.name} ${b.description}`.toLowerCase().includes(query.toLowerCase()))
-        return false;
-      return true;
-    });
-  }, [blends, filter, query]);
 
   return (
     <>
-      <Topbar
-        title="Blends"
-        subtitle="Empaques de modelos curados. Crea, ajusta, publica."
-      />
-      <main className="flex-1 p-6 lg:p-8 scrollbar-thin overflow-y-auto">
-        <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
-          <div className="flex flex-wrap items-center gap-2">
-            {FILTERS.map((f) => (
-              <button
-                key={f.id}
-                onClick={() => setFilter(f.id)}
-                className={`rounded-full px-3 py-1.5 text-xs transition-colors ${
-                  filter === f.id
-                    ? "bg-primary text-primary-ink font-bold"
-                    : "hairline text-ink-dim hover:text-ink"
-                }`}
-              >
-                {f.label}
-              </button>
-            ))}
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="hairline bg-bg-2/70 rounded-lg px-3 py-2 text-xs flex items-center gap-2">
-              <Icon name="search" className="h-3.5 w-3.5 text-ink-muted" />
-              <input
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Buscar…"
-                className="w-44 bg-transparent focus:outline-none placeholder:text-ink-muted/60 code"
-              />
+      <main className="px-margin-mobile md:px-margin-desktop py-lg max-w-container-max mx-auto">
+        <section className="mb-xl">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-md mb-lg">
+            <div>
+              <p className="font-label-caps text-label-caps text-primary-fixed-dim mb-xs uppercase">
+                Infrastructure / Compute
+              </p>
+              <h2 className="font-headline-lg text-headline-lg text-primary">Sistema de Blends</h2>
             </div>
             <Link
               href="/dashboard/blends/new"
-              className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-sm font-bold text-primary-ink hover:brightness-110"
+              className="px-md py-sm bg-primary-container text-on-primary font-label-caps text-label-caps rounded uppercase hover:brightness-110 transition-all flex items-center gap-sm w-fit"
             >
-              <Icon name="plus" className="h-4 w-4" />
-              Nuevo blend
+              <MS name="add" size={18} /> DEPLOY NEW BLEND
             </Link>
           </div>
-        </div>
 
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
-          {filtered.map((b) => (
-            <Panel key={b.id} className="!p-6 flex flex-col">
-              <div className="mb-4 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="pill pill-success">{b.useCase}</span>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-gutter mb-xl">
+            <div className="glass-card p-md rounded-lg">
+              <p className="font-label-caps text-label-caps text-on-surface-variant mb-sm uppercase">Active</p>
+              <p className="font-stats-lg text-stats-lg text-primary-fixed-dim">{BLENDS.length}</p>
+            </div>
+            <div className="glass-card p-md rounded-lg">
+              <p className="font-label-caps text-label-caps text-on-surface-variant mb-sm uppercase">Throughput</p>
+              <p className="font-stats-lg text-stats-lg text-secondary-fixed-dim">
+                1.2M <span className="text-label-caps">t/s</span>
+              </p>
+            </div>
+            <div className="glass-card p-md rounded-lg">
+              <p className="font-label-caps text-label-caps text-on-surface-variant mb-sm uppercase">Avg Latency</p>
+              <p className="font-stats-lg text-stats-lg text-tertiary-fixed-dim">
+                124 <span className="text-label-caps">ms</span>
+              </p>
+            </div>
+            <div className="glass-card p-md rounded-lg">
+              <p className="font-label-caps text-label-caps text-on-surface-variant mb-sm uppercase">Node Health</p>
+              <p className="font-stats-lg text-stats-lg text-primary-container">99.9%</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-lg">
+            {BLENDS.map((b) => (
+              <div
+                key={b.slug}
+                className={`glass-card rounded-xl overflow-hidden flex flex-col border-l-4 ${ACCENT_BORDER_L[b.accent]} transition-all duration-300 hover:translate-y-[-4px] ${ACCENT_SHADOW[b.accent]}`}
+              >
+                <div className="p-lg flex justify-between items-start">
+                  <div>
+                    <div className="flex items-center gap-sm mb-xs">
+                      <MS name={b.icon} className={ACCENT_TEXT[b.accent]} />
+                      <h3 className="font-headline-md text-headline-md text-primary">{b.name}</h3>
+                    </div>
+                    <p className="text-on-surface-variant text-body-sm max-w-sm">{b.description}</p>
+                  </div>
                   <span
-                    className={`pill ${
-                      b.visibility === "marketplace"
-                        ? "pill-info"
-                        : b.visibility === "unlisted"
-                        ? "pill-warn"
-                        : "pill-warn !bg-bg-3 !text-ink-muted !border-line/40"
-                    }`}
+                    className={`font-label-caps text-label-caps ${ACCENT_TEXT[b.accent]} ${ACCENT_BG_SOFT[b.accent]} px-sm py-xs rounded whitespace-nowrap`}
                   >
-                    {b.visibility}
+                    {b.status}
                   </span>
                 </div>
-                <button
-                  onClick={() => {
-                    if (confirm(`¿Eliminar ${b.name}?`)) deleteBlend(b.id);
-                  }}
-                  className="text-ink-muted hover:text-danger"
-                  title="Eliminar"
-                >
-                  <Icon name="alert" className="h-3.5 w-3.5" />
-                </button>
-              </div>
-              <h3 className="mb-1 text-lg font-semibold">{b.name}</h3>
-              <p className="mb-4 text-xs text-ink-muted code">{b.slug}</p>
-              <p className="mb-5 line-clamp-3 text-sm leading-relaxed text-ink-dim">{b.description}</p>
-
-              <div className="mb-5 space-y-1.5">
-                {b.components.map((c) => {
-                  const m = modelById(c.modelId);
-                  return (
-                    <div
-                      key={c.modelId}
-                      className="flex items-center justify-between rounded bg-bg-2/60 px-2.5 py-1.5 hairline"
-                    >
-                      <div className="flex items-center gap-2 min-w-0">
-                        <span
-                          className={`h-1.5 w-1.5 rounded-full ${
-                            c.role === "primary"
-                              ? "bg-primary"
-                              : c.role === "validator"
-                              ? "bg-secondary"
-                              : "bg-tertiary"
-                          }`}
-                        />
-                        <span className="truncate text-xs code text-ink">
-                          {m?.name ?? c.modelId.split("/")[1]}
-                        </span>
-                        <span className="label-caps text-ink-muted">{c.role}</span>
-                      </div>
-                      <span className="text-xs code text-ink-muted">{c.weight}%</span>
+                <div className="px-lg pb-lg mt-auto">
+                  <div className="grid grid-cols-2 gap-md mb-md">
+                    <div className="bg-surface-container-lowest p-sm rounded border border-outline-variant/10">
+                      <p className="font-label-caps text-label-caps text-on-surface-variant mb-xs">
+                        COST / 1M TOKENS
+                      </p>
+                      <p className={`font-stats-lg text-stats-lg ${ACCENT_TEXT[b.accent]}`}>
+                        ${b.costPerMTok.toFixed(2)}
+                      </p>
                     </div>
-                  );
-                })}
+                    <div className="bg-surface-container-lowest p-sm rounded border border-outline-variant/10">
+                      <p className="font-label-caps text-label-caps text-on-surface-variant mb-xs">LATENCY</p>
+                      <p className={`font-stats-lg text-stats-lg ${ACCENT_TEXT[b.accent]}`}>{b.latencyMs}ms</p>
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap gap-xs">
+                    {b.tags.map((t) => (
+                      <span
+                        key={t}
+                        className="font-label-caps text-[9px] border border-outline-variant px-xs py-[2px] rounded uppercase text-on-surface-variant"
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               </div>
+            ))}
+          </div>
+        </section>
 
-              <div className="mt-auto grid grid-cols-3 gap-3 border-t border-line/30 pt-4">
-                <div>
-                  <div className="label-caps text-ink-muted mb-1">Precio</div>
-                  <div className="text-sm code text-primary">${b.pricePerMtok.toFixed(2)}</div>
+        {blends.length > 0 && (
+          <section>
+            <div className="mb-lg">
+              <p className="font-label-caps text-label-caps text-secondary-fixed-dim mb-xs uppercase">
+                User-Deployed
+              </p>
+              <h2 className="font-headline-md text-headline-md text-primary">Your Custom Blends</h2>
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-lg">
+              {blends.map((b) => (
+                <div
+                  key={b.id}
+                  className="glass-card rounded-xl p-lg flex flex-col border-l-4 border-l-secondary-fixed-dim"
+                >
+                  <div className="flex items-start justify-between mb-md">
+                    <div>
+                      <h3 className="font-headline-md text-headline-md text-primary">{b.name}</h3>
+                      <p className="text-on-surface-variant text-body-sm">{b.description}</p>
+                    </div>
+                    <span className="font-label-caps text-label-caps text-secondary-fixed-dim bg-secondary-fixed-dim/10 px-sm py-xs rounded uppercase">
+                      {b.visibility}
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-3 gap-md mt-auto">
+                    <div className="bg-surface-container-lowest p-sm rounded">
+                      <p className="font-label-caps text-label-caps text-on-surface-variant mb-xs">PRICE/Mt</p>
+                      <p className="font-stats-lg text-stats-lg text-primary">${b.pricePerMtok.toFixed(2)}</p>
+                    </div>
+                    <div className="bg-surface-container-lowest p-sm rounded">
+                      <p className="font-label-caps text-label-caps text-on-surface-variant mb-xs">MARGIN</p>
+                      <p className="font-stats-lg text-stats-lg text-primary-fixed-dim">{b.margin}%</p>
+                    </div>
+                    <div className="bg-surface-container-lowest p-sm rounded">
+                      <p className="font-label-caps text-label-caps text-on-surface-variant mb-xs">REQS</p>
+                      <p className="font-stats-lg text-stats-lg text-secondary-fixed-dim">{b.requests}</p>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <div className="label-caps text-ink-muted mb-1">Margen</div>
-                  <div className="text-sm code text-secondary">{b.margin}%</div>
-                </div>
-                <div>
-                  <div className="label-caps text-ink-muted mb-1">Requests</div>
-                  <div className="text-sm code text-ink">{b.requests.toLocaleString()}</div>
-                </div>
-              </div>
-            </Panel>
-          ))}
-
-          {filtered.length === 0 ? (
-            <Panel className="md:col-span-2 xl:col-span-3 !p-12 text-center">
-              <Icon name="layers" className="mx-auto mb-4 h-10 w-10 text-ink-muted" />
-              <h3 className="text-base font-semibold mb-2">No hay blends en este filtro</h3>
-              <p className="text-sm text-ink-dim mb-5">Crea uno o ajusta tu búsqueda.</p>
-              <Link
-                href="/dashboard/blends/new"
-                className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-sm font-bold text-primary-ink"
-              >
-                <Icon name="plus" className="h-4 w-4" />
-                Crear blend
-              </Link>
-            </Panel>
-          ) : null}
-        </div>
+              ))}
+            </div>
+          </section>
+        )}
       </main>
+      <BottomNav active="nodes" />
     </>
   );
 }

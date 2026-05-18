@@ -1,12 +1,14 @@
 import { Sidebar } from "@/components/dashboard/Sidebar";
+import { Topbar } from "@/components/dashboard/Topbar";
 import { DashboardBoot } from "@/components/dashboard/Boot";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex min-h-screen bg-bg">
+    <div className="bg-background min-h-screen">
       <DashboardBoot />
+      <Topbar />
       <Sidebar />
-      <div className="flex min-h-screen flex-1 flex-col">{children}</div>
+      <div className="lg:pl-[280px] pt-16 pb-24 lg:pb-0 min-h-screen technical-grid">{children}</div>
     </div>
   );
 }
