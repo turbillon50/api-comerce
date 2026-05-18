@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary": "#f2fff1",
+                    "surface-container-high": "#2a2a2a",
+                    "on-primary-container": "#00713f",
+                    "secondary-fixed-dim": "#d0bcff",
+                    "secondary": "#d0bcff",
+                    "on-tertiary-fixed-variant": "#574500",
+                    "inverse-on-surface": "#313030",
+                    "surface-bright": "#3a3939",
+                    "tertiary-fixed-dim": "#e5c45b",
+                    "on-secondary-container": "#c4abff",
+                    "surface": "#131313",
+                    "on-tertiary": "#3c2f00",
+                    "on-primary-fixed": "#00210e",
+                    "error": "#ffb4ab",
+                    "on-tertiary-container": "#775f00",
+                    "surface-container-lowest": "#0e0e0e",
+                    "tertiary-fixed": "#ffe085",
+                    "surface-dim": "#131313",
+                    "primary-container": "#00ff94",
+                    "on-background": "#e5e2e1",
+                    "tertiary-container": "#ffdc71",
+                    "error-container": "#93000a",
+                    "background": "#131313",
+                    "secondary-fixed": "#e9ddff",
+                    "primary-fixed": "#5bffa1",
+                    "surface-tint": "#00e383",
+                    "on-error-container": "#ffdad6",
+                    "secondary-container": "#571bc1",
+                    "on-secondary": "#3c0091",
+                    "outline": "#849586",
+                    "on-primary": "#00391d",
+                    "surface-container-highest": "#353534",
+                    "tertiary": "#fffbf9",
+                    "on-tertiary-fixed": "#231b00",
+                    "outline-variant": "#3b4b3e",
+                    "primary-fixed-dim": "#00e383",
+                    "inverse-primary": "#006d3c",
+                    "on-secondary-fixed": "#23005c",
+                    "surface-container-low": "#1c1b1b",
+                    "on-secondary-fixed-variant": "#5516be",
+                    "surface-variant": "#353534",
+                    "on-surface": "#e5e2e1",
+                    "on-primary-fixed-variant": "#00522c",
+                    "on-surface-variant": "#b9cbbb",
+                    "on-error": "#690005",
+                    "inverse-surface": "#e5e2e1",
+                    "surface-container": "#201f1f"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-max": "1440px",
+                    "unit": "8px",
+                    "margin-desktop": "48px",
+                    "margin-mobile": "16px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "data-mono": ["JetBrains Mono"],
+                    "headline-md": ["Inter"],
+                    "display-lg-mobile": ["Inter"],
+                    "body-md": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "label-sm": ["JetBrains Mono"]
+            },
+            "fontSize": {
+                    "data-mono": ["14px", {"lineHeight": "1.5", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-sm": ["12px", {"lineHeight": "1", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(32, 31, 31, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glow-emerald {
+            box-shadow: 0 0 20px rgba(0, 255, 148, 0.15);
+        }
+        .glow-violet {
+            box-shadow: 0 0 20px rgba(208, 188, 255, 0.15);
+        }
+        .request-gradient {
+            background: linear-gradient(90deg, rgba(0, 255, 148, 0.1) 0%, rgba(208, 188, 255, 0.1) 100%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md min-h-screen pb-24 md:pb-0">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/60 dark:bg-surface/60 backdrop-blur-xl border-b border-white/10 shadow-xl flex justify-between items-center px-margin-desktop h-16">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-headline-md" style="font-variation-settings: 'FILL' 1;">api</span>
+<span class="font-display-lg text-display-lg bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">APICommerce</span>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-all duration-300" href="#">Home</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-all duration-300" href="#">Marketplace</a>
+<a class="font-label-sm text-label-sm text-primary border-b-2 border-primary transition-all duration-300" href="#">Console</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-all duration-300" href="#">Wallet</a>
+</nav>
+<button class="bg-primary-container text-on-primary font-label-sm text-label-sm px-6 py-2 rounded-full active:scale-95 transition-transform hover:shadow-lg hover:shadow-primary/20">
+            Connect Wallet
+        </button>
+</header>
+<main class="pt-24 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<!-- Header & Greeting Section -->
+<div class="flex flex-col md:flex-row justify-between items-end mb-8 gap-4">
+<div>
+<h1 class="font-headline-md text-headline-md text-primary mb-2">Developer Console</h1>
+<p class="text-on-surface-variant max-w-xl">Monitor your decentralized API nodes and smart-contract calls in real-time. High precision, low latency commerce orchestration.</p>
+</div>
+<div class="flex items-center gap-4 bg-surface-container-high rounded-xl p-3 border border-outline-variant">
+<div class="w-3 h-3 bg-primary-container rounded-full animate-pulse"></div>
+<span class="font-data-mono text-data-mono text-primary-fixed-dim">NETWORK: MAINNET-OMEGA</span>
+</div>
+</div>
+<!-- Metric Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter mb-gutter">
+<!-- Total Tokens -->
+<div class="glass-card p-6 rounded-xl glow-emerald flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start">
+<span class="text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">Total Tokens</span>
+<span class="material-symbols-outlined text-primary-container">database</span>
+</div>
+<div class="mt-4">
+<span class="font-data-mono text-4xl font-bold text-primary">1.28M</span>
+<span class="text-primary-container text-sm block mt-1">+12.4% vs last 24h</span>
+</div>
+</div>
+<div class="mt-6 h-1 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary-container w-3/4"></div>
+</div>
+</div>
+<!-- Savings -->
+<div class="glass-card p-6 rounded-xl glow-violet flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start">
+<span class="text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">Net Savings</span>
+<span class="material-symbols-outlined text-secondary">account_balance_wallet</span>
+</div>
+<div class="mt-4 flex flex-col">
+<span class="font-data-mono text-4xl font-bold text-secondary">$4,821.50</span>
+<span class="font-data-mono text-sm text-on-surface-variant mt-2">1.42 ETH / 34.8 SOL</span>
+</div>
+</div>
+</div>
+<!-- Uptime -->
+<div class="glass-card p-6 rounded-xl border-l-4 border-l-primary-container flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start">
+<span class="text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">Global Uptime</span>
+<span class="material-symbols-outlined text-primary-container">check_circle</span>
+</div>
+<div class="mt-4">
+<span class="font-data-mono text-4xl font-bold text-on-surface">99.99%</span>
+<div class="flex gap-1 mt-3">
+<div class="h-4 w-1 bg-primary-container rounded-full"></div>
+<div class="h-4 w-1 bg-primary-container rounded-full"></div>
+<div class="h-4 w-1 bg-primary-container rounded-full"></div>
+<div class="h-4 w-1 bg-primary-container rounded-full"></div>
+<div class="h-4 w-1 bg-primary-container rounded-full"></div>
+<div class="h-4 w-1 bg-primary-container rounded-full opacity-50"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Latency -->
+<div class="glass-card p-6 rounded-xl flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start">
+<span class="text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">Avg Latency</span>
+<span class="material-symbols-outlined text-error">speed</span>
+</div>
+<div class="mt-4">
+<span class="font-data-mono text-4xl font-bold text-on-surface">24ms</span>
+<span class="text-error text-sm block mt-1">P99: 42ms (Peak)</span>
+</div>
+</div>
+<div class="mt-4 flex items-end gap-1 h-12">
+<div class="w-full bg-outline-variant h-4 rounded-t-sm"></div>
+<div class="w-full bg-outline-variant h-6 rounded-t-sm"></div>
+<div class="w-full bg-outline-variant h-8 rounded-t-sm"></div>
+<div class="w-full bg-primary-container h-3 rounded-t-sm"></div>
+<div class="w-full bg-outline-variant h-7 rounded-t-sm"></div>
+</div>
+</div>
+</div>
+<!-- Main Layout Split -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter mb-24">
+<!-- Request Stream (2 Cols) -->
+<div class="lg:col-span-2 glass-card rounded-xl overflow-hidden flex flex-col h-[600px]">
+<div class="p-6 border-b border-white/10 flex justify-between items-center bg-surface-container-low">
+<h3 class="font-headline-md text-headline-md text-primary flex items-center gap-3">
+<span class="material-symbols-outlined">terminal</span>
+                        Live Request Stream
+                    </h3>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-primary-container/10 text-primary-container text-label-sm font-data-mono rounded-full border border-primary-container/20">WEBSOCKET: ON</span>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto p-4 space-y-2 bg-surface-container-lowest font-data-mono text-sm">
+<div class="flex items-center gap-4 p-3 rounded-lg hover:bg-white/5 transition-colors border-b border-white/5 group">
+<span class="text-on-surface-variant text-xs">14:22:01</span>
+<span class="text-primary-container font-bold">POST</span>
+<span class="text-on-surface truncate">/v1/commerce/mint_nft</span>
+<span class="ml-auto text-secondary text-xs">200 OK</span>
+</div>
+<div class="flex items-center gap-4 p-3 rounded-lg hover:bg-white/5 transition-colors border-b border-white/5 group">
+<span class="text-on-surface-variant text-xs">14:21:58</span>
+<span class="text-primary-fixed-dim font-bold">GET</span>
+<span class="text-on-surface truncate">/v1/wallet/balance?addr=0x71...f2</span>
+<span class="ml-auto text-secondary text-xs">200 OK</span>
+</div>
+<div class="flex items-center gap-4 p-3 rounded-lg bg-primary-container/5 border-l-2 border-primary-container">
+<span class="text-on-surface-variant text-xs">14:21:55</span>
+<span class="text-primary-container font-bold">POST</span>
+<span class="text-on-surface truncate">/v1/stream/ingest_telemetry</span>
+<span class="ml-auto flex items-center gap-2">
+<span class="w-2 h-2 bg-primary-container rounded-full animate-ping"></span>
+<span class="text-primary-container text-xs">PROCESSING</span>
+</span>
+</div>
+<div class="flex items-center gap-4 p-3 rounded-lg hover:bg-white/5 transition-colors border-b border-white/5">
+<span class="text-on-surface-variant text-xs">14:21:42</span>
+<span class="text-primary-fixed-dim font-bold">GET</span>
+<span class="text-on-surface truncate">/v1/marketplace/listings?page=1</span>
+<span class="ml-auto text-secondary text-xs">200 OK</span>
+</div>
+<div class="flex items-center gap-4 p-3 rounded-lg hover:bg-white/5 transition-colors border-b border-white/5">
+<span class="text-on-surface-variant text-xs">14:21:30</span>
+<span class="text-error font-bold">PUT</span>
+<span class="text-on-surface truncate">/v1/admin/config_update</span>
+<span class="ml-auto text-error text-xs">403 FORBIDDEN</span>
+</div>
+<div class="flex items-center gap-4 p-3 rounded-lg hover:bg-white/5 transition-colors border-b border-white/5">
+<span class="text-on-surface-variant text-xs">14:21:22</span>
+<span class="text-primary-container font-bold">POST</span>
+<span class="text-on-surface truncate">/v1/auth/verify_signature</span>
+<span class="ml-auto text-secondary text-xs">200 OK</span>
+</div>
+<div class="flex items-center gap-4 p-3 rounded-lg hover:bg-white/5 transition-colors border-b border-white/5">
+<span class="text-on-surface-variant text-xs">14:21:10</span>
+<span class="text-primary-fixed-dim font-bold">GET</span>
+<span class="text-on-surface truncate">/v1/analytics/overview</span>
+<span class="ml-auto text-secondary text-xs">200 OK</span>
+</div>
+</div>
+</div>
+<!-- Mascot Insight & Sidebar (1 Col) -->
+<div class="space-y-gutter">
+<!-- Mascot Widget -->
+<div class="glass-card rounded-xl p-8 relative overflow-hidden group">
+<div class="absolute -top-12 -right-12 w-48 h-48 bg-primary-container/20 blur-3xl rounded-full group-hover:bg-primary-container/30 transition-all"></div>
+<div class="relative z-10">
+<div class="flex items-center gap-4 mb-6">
+<div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary-container to-secondary-container flex items-center justify-center p-0.5">
+<div class="w-full h-full bg-surface-container rounded-[14px] flex items-center justify-center">
+<span class="material-symbols-outlined text-4xl text-primary-container" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+</div>
+</div>
+<div>
+<h4 class="font-headline-md text-headline-md text-primary">API Mascot</h4>
+<span class="text-primary-container font-data-mono text-xs uppercase">Node Assistant</span>
+</div>
+</div>
+<div class="bg-surface-container-highest/50 p-4 rounded-lg border border-white/10 italic text-on-surface mb-4">
+                            "Hey Dev! I've noticed a 4% increase in gas efficiency on your last 200 minting requests. Optimization looks solid."
+                        </div>
+<button class="w-full py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-on-surface font-label-sm text-label-sm transition-colors flex items-center justify-center gap-2">
+                            Ask Insight
+                            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Technical Settings Shortcut -->
+<div class="glass-card rounded-xl p-6">
+<h5 class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-4 tracking-tighter">Quick Config</h5>
+<div class="space-y-4">
+<div class="flex justify-between items-center p-3 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors cursor-pointer">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-container">vpn_key</span>
+<span class="text-on-surface">API Keys</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</div>
+<div class="flex justify-between items-center p-3 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors cursor-pointer">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary">settings_ethernet</span>
+<span class="text-on-surface">Webhook Endpoints</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</div>
+<div class="flex justify-between items-center p-3 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors cursor-pointer">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-tertiary-container">shield</span>
+<span class="text-on-surface">IP Whitelisting</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</div>
+</div>
+</div>
+<!-- Visual Data Decoration -->
+<div class="h-32 glass-card rounded-xl overflow-hidden relative">
+<img class="w-full h-full object-cover opacity-40" data-alt="A futuristic abstract background with complex interconnected circuit lines glowing in neon electric emerald and soft ethereal violet. The visual composition is clean and technical, emphasizing precision and data flow through a dark obsidian void with floating geometric glass shards." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIBblgc4BzWeYT2P-wd0uaHAfxWJwf1U9pBHZasEFr7nXzRkQeBrIohQJ3dJW97-8U3G6L_xL8NV5pQPxvKpXCKD0n_BophWghguS3ULst_a1yqwRnMhQDdB-II1RUaGEg7TFYRTUvlteg6qYVEHMBbjjMnFBhnGfsQAe2H77t9tpHgDr3MjmbQ3eWqs96lyUyvZXh775hoq414PprHhx3ri_9Kyp0wgzSgFIuTylkwLoHIBfrhV52iAzJIqnrFuP-T7eB6jJ_mcWY"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent"></div>
+<div class="absolute bottom-4 left-4">
+<span class="font-data-mono text-label-sm text-primary-container">NODE_HEALTH: OPTIMAL</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center bg-surface/80 dark:bg-surface/80 backdrop-blur-lg px-margin-mobile py-2 border-t border-white/10 shadow-[0_-4px_20px_rgba(0,0,0,0.5)] z-50 rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-label-sm text-label-sm">Marketplace</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container/20 text-primary-fixed-dim rounded-xl p-2 transition-transform active:scale-90" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-label-sm text-label-sm">Console</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span class="font-label-sm text-label-sm">Wallet</span>
+</a>
+</nav>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest dark:bg-surface-container-lowest w-full py-12 border-t border-outline-variant hidden md:block">
+<div class="max-w-container-max mx-auto px-margin-desktop grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary mb-4">APICommerce</h2>
+<p class="text-on-surface-variant font-body-md text-body-md max-w-sm mb-6">Empowering the decentralized web with high-performance commerce primitives and API infrastructure.</p>
+<p class="text-on-surface-variant text-sm">© 2024 APICommerce. Built for the decentralized web.</p>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-8">
+<div class="flex flex-col gap-3">
+<span class="font-label-sm text-label-sm text-primary uppercase">Resources</span>
+<a class="text-on-surface-variant hover:text-primary-fixed transition-colors duration-200" href="#">Docs</a>
+<a class="text-on-surface-variant hover:text-primary-fixed transition-colors duration-200" href="#">Manifest</a>
+</div>
+<div class="flex flex-col gap-3">
+<span class="font-label-sm text-label-sm text-primary uppercase">Community</span>
+<a class="text-on-surface-variant hover:text-primary-fixed transition-colors duration-200" href="#">Discord</a>
+<a class="text-on-surface-variant hover:text-primary-fixed transition-colors duration-200" href="#">Twitter</a>
+</div>
+<div class="flex flex-col gap-3">
+<span class="font-label-sm text-label-sm text-primary uppercase">Code</span>
+<a class="text-on-surface-variant hover:text-primary-fixed transition-colors duration-200" href="#">Github</a>
+</div>
+</div>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b1326;
+            color: #dae2fd;
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-top-color: rgba(255, 255, 255, 0.2);
+            border-left-color: rgba(255, 255, 255, 0.2);
+        }
+        .glow-border:focus-within {
+            border-color: #adc6ff;
+            box-shadow: 0 0 15px rgba(173, 198, 255, 0.3);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #adc6ff 0%, #4edea3 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-tertiary": "#502400",
+                      "inverse-primary": "#005ac2",
+                      "on-tertiary-container": "#461f00",
+                      "surface-container-high": "#222a3d",
+                      "secondary-fixed": "#6ffbbe",
+                      "on-primary-container": "#00285d",
+                      "on-primary": "#002e6a",
+                      "on-tertiary-fixed": "#311400",
+                      "outline": "#8c909f",
+                      "surface-container-lowest": "#060e20",
+                      "surface-dim": "#0b1326",
+                      "on-tertiary-fixed-variant": "#723600",
+                      "primary": "#adc6ff",
+                      "on-secondary-fixed-variant": "#005236",
+                      "tertiary-fixed": "#ffdcc6",
+                      "on-error-container": "#ffdad6",
+                      "surface-container-low": "#131b2e",
+                      "primary-fixed-dim": "#adc6ff",
+                      "on-secondary-container": "#00311f",
+                      "inverse-surface": "#dae2fd",
+                      "surface": "#0b1326",
+                      "outline-variant": "#424754",
+                      "on-primary-fixed": "#001a42",
+                      "surface-container": "#171f33",
+                      "on-surface-variant": "#c2c6d6",
+                      "on-background": "#dae2fd",
+                      "primary-fixed": "#d8e2ff",
+                      "error-container": "#93000a",
+                      "surface-bright": "#31394d",
+                      "secondary-fixed-dim": "#4edea3",
+                      "on-error": "#690005",
+                      "tertiary-fixed-dim": "#ffb786",
+                      "secondary-container": "#00a572",
+                      "surface-variant": "#2d3449",
+                      "on-secondary": "#003824",
+                      "surface-tint": "#adc6ff",
+                      "on-secondary-fixed": "#002113",
+                      "background": "#0b1326",
+                      "on-surface": "#dae2fd",
+                      "secondary": "#4edea3",
+                      "surface-container-highest": "#2d3449",
+                      "on-primary-fixed-variant": "#004395",
+                      "primary-container": "#4d8eff",
+                      "tertiary-container": "#df7412",
+                      "inverse-on-surface": "#283044",
+                      "tertiary": "#ffb786",
+                      "error": "#ffb4ab"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-mobile": "16px",
+                      "base": "8px",
+                      "margin-desktop": "40px",
+                      "container-max": "1440px",
+                      "gutter": "24px"
+              },
+              "fontFamily": {
+                      "headline-lg": ["Inter"],
+                      "label-sm": ["JetBrains Mono"],
+                      "body-lg": ["Inter"],
+                      "code-md": ["JetBrains Mono"],
+                      "headline-sm": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "body-md": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "code-md": ["14px", {"lineHeight": "22px", "fontWeight": "400"}],
+                      "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+      </script>
+</head>
+<body class="bg-background text-on-surface">
+<!-- TopAppBar Navigation -->
+<header class="sticky top-0 w-full z-50 bg-surface/70 dark:bg-surface/70 backdrop-blur-xl border-b border-outline-variant/20 shadow-sm">
+<div class="flex justify-between items-center h-20 px-margin-desktop max-w-container-max mx-auto">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">api</span>
+<span class="text-headline-md font-headline-md font-bold text-on-surface dark:text-on-surface">APICommerce</span>
+</div>
+<nav class="hidden md:flex items-center gap-8 font-label-sm text-label-sm">
+<a class="text-primary border-b-2 border-primary pb-1" href="#">Home</a>
+<a class="text-on-surface-variant hover:text-on-surface hover:text-primary transition-all duration-200" href="#">Documentation</a>
+<a class="text-on-surface-variant hover:text-on-surface hover:text-primary transition-all duration-200" href="#">Pricing</a>
+<a class="text-on-surface-variant hover:text-on-surface hover:text-primary transition-all duration-200" href="#">Company</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="hidden sm:block text-on-surface-variant font-label-sm text-label-sm hover:text-primary transition-all">Sign In</button>
+<button class="bg-primary text-on-primary px-6 py-2.5 rounded font-label-sm text-label-sm font-bold active:scale-95 transition-transform duration-200">Get Started</button>
+</div>
+</div>
+</header>
+<main>
+<!-- Hero Section -->
+<section class="relative pt-20 pb-32 overflow-hidden px-margin-desktop max-w-container-max mx-auto">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+<div class="z-10">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary-container/20 text-secondary border border-secondary/30 mb-6">
+<span class="material-symbols-outlined text-sm">rocket_launch</span>
+<span class="font-label-sm text-label-sm">Next-Gen API Gateway</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg md:text-[64px] md:leading-[72px] mb-6">
+                        Infrastructure for AI, <br/>
+<span class="text-gradient">Simplified</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-10 max-w-lg">
+                        Connect, route, and optimize your AI commerce workflows with a single unified gateway. Scale your intelligent applications without the operational headache.
+                    </p>
+<div class="flex flex-wrap gap-4">
+<button class="bg-primary-container text-on-primary-container px-8 py-4 rounded-lg font-bold flex items-center gap-2 active:scale-95 transition-all">
+                            Start Building Now
+                            <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<button class="border border-outline-variant text-on-surface px-8 py-4 rounded-lg font-bold hover:bg-surface-variant transition-all">
+                            View Documentation
+                        </button>
+</div>
+</div>
+<div class="relative flex justify-center lg:justify-end">
+<div class="absolute inset-0 bg-primary/10 blur-[120px] rounded-full"></div>
+<img alt="Mascota API Friendly" class="relative z-10 w-full max-w-md animate-pulse-slow" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB04I2zIJts5so4sNMNLTkjxprjHhN7WwrRJ1tEwBqO2v4pxR3vXIPlQtui384I8m8C5CO6hun8BGUtcSvgnImSPUej9TSqu0PpyoK3W4Bl789xodqbNLaeQnjgomDh0uU2ajMx-nKJorQYV1dJ379yHmyTtvReeLzlWXOYC_5bHFnNX038O6p9XHgMuiq5den0TiNozuEN9rXF0GHmqYwwuxynRClX6Wdym0ygsaq6ZtVIwz-NMc2mYlg7KoVDBsKRfN9085Jpl6Zr"/>
+</div>
+</div>
+</section>
+<!-- Manifesto Section: Bento Grid -->
+<section class="py-24 px-margin-desktop max-w-container-max mx-auto">
+<div class="text-center mb-16">
+<h2 class="font-headline-md text-headline-md mb-4">Why APICommerce?</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mx-auto">
+                    We've built the foundation so you can focus on building the future. Our platform handles the complexity of the modern AI-driven commerce landscape.
+                </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Complexity -->
+<div class="glass-card p-8 rounded-xl md:col-span-2">
+<div class="flex flex-col h-full">
+<div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary mb-6">
+<span class="material-symbols-outlined">bolt</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm mb-4">Simplicity at Scale</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8 max-w-md">
+                            Replace hundreds of fragmented microservices with one intelligent orchestrator. Deploy in minutes, scale to millions of requests without breaking a sweat.
+                        </p>
+<div class="mt-auto bg-surface-container-lowest rounded-lg p-4 font-code-md text-code-md text-secondary border border-outline-variant/30 overflow-x-auto whitespace-nowrap">
+<span class="text-on-surface-variant">curl</span> -X POST api.comerce.io/v1/deploy
+                        </div>
+</div>
+</div>
+<!-- Cost Efficiency -->
+<div class="glass-card p-8 rounded-xl">
+<div class="w-12 h-12 rounded-lg bg-secondary/10 flex items-center justify-center text-secondary mb-6">
+<span class="material-symbols-outlined">payments</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm mb-4">Cost-Efficiency</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                        Our intelligent routing predicts token usage and routes requests to the most cost-effective models without sacrificing performance.
+                    </p>
+</div>
+<!-- Routing -->
+<div class="glass-card p-8 rounded-xl">
+<div class="w-12 h-12 rounded-lg bg-tertiary/10 flex items-center justify-center text-tertiary mb-6">
+<span class="material-symbols-outlined">route</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm mb-4">Intelligent Routing</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                        Dynamic fallback logic ensures 99.99% uptime. If a provider is down, we switch paths instantly.
+                    </p>
+</div>
+<!-- Global -->
+<div class="glass-card p-8 rounded-xl md:col-span-2">
+<div class="flex items-center gap-8 h-full flex-wrap md:flex-nowrap">
+<div class="w-full">
+<h3 class="font-headline-sm text-headline-sm mb-4">Global Infrastructure</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                                Edge-native execution ensures sub-50ms latency anywhere in the world. Your AI responses are served where your users are.
+                            </p>
+</div>
+<div class="w-full bg-surface-container h-32 rounded-lg flex items-center justify-center border border-outline-variant/20">
+<div class="flex items-center gap-4">
+<div class="w-2 h-2 bg-secondary rounded-full animate-ping"></div>
+<span class="font-label-sm text-label-sm text-secondary">Active Regions: 24</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Feature Highlights Section -->
+<section class="py-24 bg-surface-container-low border-y border-outline-variant/10">
+<div class="px-margin-desktop max-w-container-max mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+<div class="flex flex-col items-center">
+<div class="w-16 h-16 rounded-2xl bg-surface-variant flex items-center justify-center mb-6 shadow-lg">
+<span class="material-symbols-outlined text-primary text-3xl">auto_mode</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm mb-2">Auto-Routing</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Smart traffic management across multiple LLMs and data endpoints.</p>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-16 h-16 rounded-2xl bg-surface-variant flex items-center justify-center mb-6 shadow-lg">
+<span class="material-symbols-outlined text-secondary text-3xl">savings</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm mb-2">Cost Savings</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Reduce operational overhead and compute costs by up to 40%.</p>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-16 h-16 rounded-2xl bg-surface-variant flex items-center justify-center mb-6 shadow-lg">
+<span class="material-symbols-outlined text-tertiary text-3xl">hub</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm mb-2">Universal API</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">One interface, any model. Swap providers with zero code changes.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Registration Section -->
+<section class="py-32 px-margin-desktop max-w-container-max mx-auto">
+<div class="max-w-4xl mx-auto glass-card p-12 rounded-2xl relative overflow-hidden">
+<div class="absolute top-0 right-0 p-8 opacity-10">
+<span class="material-symbols-outlined text-[120px]">person_add</span>
+</div>
+<div class="relative z-10 text-center lg:text-left lg:flex items-center gap-16">
+<div class="lg:w-1/2 mb-10 lg:mb-0">
+<h2 class="font-headline-md text-headline-md mb-4">Ready to simplify your commerce API?</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                            Join 2,000+ engineers building the future of AI commerce. Free tier includes up to 50k requests/month.
+                        </p>
+</div>
+<div class="lg:w-1/2">
+<form class="space-y-4">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="glow-border bg-surface-container rounded-lg p-px">
+<input class="w-full bg-surface-container-high border-none rounded-lg text-on-surface px-4 py-3 focus:ring-0 placeholder:text-outline" placeholder="First Name" type="text"/>
+</div>
+<div class="glow-border bg-surface-container rounded-lg p-px">
+<input class="w-full bg-surface-container-high border-none rounded-lg text-on-surface px-4 py-3 focus:ring-0 placeholder:text-outline" placeholder="Work Email" type="email"/>
+</div>
+</div>
+<div class="glow-border bg-surface-container rounded-lg p-px">
+<input class="w-full bg-surface-container-high border-none rounded-lg text-on-surface px-4 py-3 focus:ring-0 placeholder:text-outline" placeholder="Password" type="password"/>
+</div>
+<button class="w-full bg-primary text-on-primary py-4 rounded-lg font-bold text-lg hover:bg-primary-fixed transition-colors active:scale-[0.98]" type="submit">
+                                Create Your Free Account
+                            </button>
+<p class="text-center text-label-sm font-label-sm text-outline">
+                                By signing up, you agree to our Terms of Service.
+                            </p>
+</form>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<section class="py-24 px-margin-desktop max-w-container-max mx-auto border-t border-outline-variant/10">
+<div class="text-center mb-16">
+<div class="flex justify-center mb-6">
+<img alt="API Mascot" class="w-24 h-24 rounded-full bg-secondary-container/10 p-2 border border-secondary/20" src="https://lh3.googleusercontent.com/aida/ADBb0ujIwBaTwjykR5bTLg8nx11TG7qiaj-v9fkAxNXGyWYBRautHyxUgejsU9Syt1jKCGUwNr5hj1hJfnPDkSji49qsyiQwL-gilOv61iuSqXoUHZB780oBVpd-9jkJk2bfRjBqvYrJ1s2WfqCrzj8YIqnhIiQTmHjEEJsxt7SupAK673uhpdPwVO0nQFPfsCa5Su20bhIpqcSDdoB1zcGC5JnbUfQ6jn4wfsvDBZjVxsa4495wiVUkYLE3-v85"/>
+</div>
+<h2 class="font-headline-lg text-headline-lg mb-4">Precios Transparentes</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">Paga solo por lo que usas con nuestro modelo Pay-as-you-go. Sin compromisos a largo plazo.</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-16">
+<div class="glass-card p-8 rounded-2xl">
+<h3 class="font-headline-sm text-headline-sm mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">layers</span>
+        Nuestras Mezclas (Blends)
+      </h3>
+<div class="space-y-4">
+<div class="flex justify-between items-center p-4 rounded-lg bg-surface-container-high border border-outline-variant/20">
+<div>
+<p class="font-bold text-on-surface">General Blend</p>
+<p class="text-label-sm text-on-surface-variant">Optimizado para tareas comunes</p>
+</div>
+<p class="font-code-md text-secondary">$0.15 <span class="text-xs text-on-surface-variant">/ 1M tokens</span></p>
+</div>
+<div class="flex justify-between items-center p-4 rounded-lg bg-surface-container-high border border-outline-variant/20">
+<div>
+<p class="font-bold text-on-surface">Support Blend</p>
+<p class="text-label-sm text-on-surface-variant">Ideal para atención al cliente</p>
+</div>
+<p class="font-code-md text-secondary">$0.08 <span class="text-xs text-on-surface-variant">/ 1M tokens</span></p>
+</div>
+<div class="flex justify-between items-center p-4 rounded-lg bg-surface-container-high border border-outline-variant/20">
+<div>
+<p class="font-bold text-on-surface">Agent Blend</p>
+<p class="text-label-sm text-on-surface-variant">Diseñado para flujos autónomos</p>
+</div>
+<p class="font-code-md text-secondary">$0.45 <span class="text-xs text-on-surface-variant">/ 1M tokens</span></p>
+</div>
+<div class="flex justify-between items-center p-4 rounded-lg bg-surface-container-high border-primary/30 border-2">
+<div>
+<p class="font-bold text-primary">Builder Blend</p>
+<p class="text-label-sm text-on-surface-variant">Máximo rendimiento creativo</p>
+</div>
+<p class="font-code-md text-primary font-bold">$1.20 <span class="text-xs text-on-surface-variant">/ 1M tokens</span></p>
+</div>
+</div>
+</div>
+<div class="space-y-6">
+<div class="p-6 rounded-xl bg-secondary-container/10 border border-secondary/20">
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-secondary">card_giftcard</span>
+<div>
+<h4 class="font-bold mb-1 text-on-surface">Nivel Gratuito (Free Tier)</h4>
+<p class="text-body-md text-on-surface-variant">Tus primeras 50,000 peticiones al mes son totalmente gratis. Prueba todas nuestras funciones sin riesgo.</p>
+</div>
+</div>
+</div>
+<div class="p-6 rounded-xl bg-primary-container/10 border border-primary/20">
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-primary">corporate_fare</span>
+<div>
+<h4 class="font-bold mb-1 text-on-surface">Descuentos por Volumen</h4>
+<p class="text-body-md text-on-surface-variant">¿Eres una gran empresa? Ofrecemos precios personalizados y soporte prioritario para escalas superiores a 500M de tokens.</p>
+</div>
+</div>
+</div>
+<div class="p-6 rounded-xl bg-surface-variant/30 border border-outline-variant/20">
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-tertiary">help_outline</span>
+<div>
+<h4 class="font-bold mb-1 text-on-surface">¿Hay costes ocultos?</h4>
+<p class="text-body-md text-on-surface-variant">Sin costes ocultos, solo pagas por lo que consumes. Sin cuotas de mantenimiento ni de implementación.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section><footer class="bg-surface-container-lowest dark:bg-surface-container-lowest border-t border-outline-variant/20 full-width py-12">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 px-margin-desktop max-w-container-max mx-auto">
+<div class="space-y-6">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-2xl" style="font-variation-settings: 'FILL' 1;">api</span>
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">APICommerce</span>
+</div>
+<p class="text-body-md font-body-md text-on-surface-variant max-w-xs">
+                    The intelligence layer for modern commerce APIs. Optimized for performance and developer experience.
+                </p>
+<p class="text-label-sm font-label-sm text-on-surface-variant opacity-60">
+                    © 2024 APICommerce Inc. Built for developers.
+                </p>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-8">
+<div class="space-y-4">
+<p class="text-on-surface font-bold font-label-sm text-label-sm uppercase tracking-wider">Product</p>
+<nav class="flex flex-col gap-3">
+<a class="text-on-surface-variant font-label-sm text-label-sm hover:text-secondary transition-colors duration-200" href="#">Documentation</a>
+<a class="text-on-surface-variant font-label-sm text-label-sm hover:text-secondary transition-colors duration-200" href="#">API Reference</a>
+<a class="text-on-surface-variant font-label-sm text-label-sm hover:text-secondary transition-colors duration-200" href="#">Changelog</a>
+</nav>
+</div>
+<div class="space-y-4">
+<p class="text-on-surface font-bold font-label-sm text-label-sm uppercase tracking-wider">Support</p>
+<nav class="flex flex-col gap-3">
+<a class="text-on-surface-variant font-label-sm text-label-sm hover:text-secondary transition-colors duration-200" href="#">Status</a>
+<a class="text-on-surface-variant font-label-sm text-label-sm hover:text-secondary transition-colors duration-200" href="#">Discord</a>
+<a class="text-on-surface-variant font-label-sm text-label-sm hover:text-secondary transition-colors duration-200" href="#">Privacy</a>
+</nav>
+</div>
+<div class="space-y-4 col-span-2 sm:col-span-1">
+<p class="text-on-surface font-bold font-label-sm text-label-sm uppercase tracking-wider">Social</p>
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-lg bg-surface-variant flex items-center justify-center text-on-surface-variant hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined">terminal</span>
+</a>
+<a class="w-10 h-10 rounded-lg bg-surface-variant flex items-center justify-center text-on-surface-variant hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined">group</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</footer>
+</body></html>

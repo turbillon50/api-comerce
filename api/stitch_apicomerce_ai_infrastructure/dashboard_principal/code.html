@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error": "#ffb4ab",
+                        "on-surface": "#e5e2e3",
+                        "on-tertiary-fixed": "#30004b",
+                        "on-secondary-fixed": "#001f25",
+                        "surface-container": "#201f20",
+                        "surface": "#131314",
+                        "surface-container-low": "#1c1b1c",
+                        "surface-tint": "#00e383",
+                        "on-secondary": "#00363f",
+                        "tertiary": "#fffaff",
+                        "secondary-container": "#00e0ff",
+                        "on-error-container": "#ffdad6",
+                        "on-tertiary-fixed-variant": "#7000a7",
+                        "inverse-on-surface": "#313031",
+                        "outline": "#849586",
+                        "outline-variant": "#3b4b3e",
+                        "on-secondary-container": "#005f6d",
+                        "surface-dim": "#131314",
+                        "on-tertiary": "#4f0077",
+                        "on-primary-fixed": "#00210e",
+                        "surface-container-high": "#2a2a2b",
+                        "surface-container-lowest": "#0e0e0f",
+                        "on-tertiary-container": "#9900e2",
+                        "on-secondary-fixed-variant": "#004e5a",
+                        "primary": "#f2fff1",
+                        "on-error": "#690005",
+                        "surface-variant": "#353436",
+                        "primary-container": "#00ff94",
+                        "inverse-primary": "#006d3c",
+                        "on-primary": "#00391d",
+                        "error-container": "#93000a",
+                        "secondary-fixed": "#a5eeff",
+                        "primary-fixed-dim": "#00e383",
+                        "on-primary-fixed-variant": "#00522c",
+                        "tertiary-fixed": "#f5d9ff",
+                        "on-surface-variant": "#b9cbbb",
+                        "background": "#131314",
+                        "primary-fixed": "#5bffa1",
+                        "surface-container-highest": "#353436",
+                        "secondary": "#b9f1ff",
+                        "secondary-fixed-dim": "#00daf8",
+                        "tertiary-fixed-dim": "#e5b4ff",
+                        "surface-bright": "#3a393a",
+                        "tertiary-container": "#f3d5ff",
+                        "on-background": "#e5e2e3",
+                        "on-primary-container": "#00713f",
+                        "inverse-surface": "#e5e2e3"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "xl": "48px",
+                        "md": "16px",
+                        "xs": "4px",
+                        "margin": "32px",
+                        "gutter": "16px",
+                        "sm": "8px",
+                        "base": "8px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "label-caps": ["JetBrains Mono"],
+                        "headline-md": ["Inter"],
+                        "stats-lg": ["JetBrains Mono"],
+                        "code-md": ["JetBrains Mono"],
+                        "body-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "jetbrains-mono": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-caps": ["11px", {"lineHeight": "1", "letterSpacing": "0.08em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "stats-lg": ["20px", {"lineHeight": "1", "letterSpacing": "-0.03em", "fontWeight": "500"}],
+                        "code-md": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #050505; color: #e5e2e3; }
+        .technical-grid {
+            background-image: radial-gradient(circle at 1px 1px, #1a1a1d 1px, transparent 0);
+            background-size: 32px 32px;
+        }
+        .glass-panel {
+            background: rgba(19, 19, 20, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(59, 75, 62, 0.3);
+        }
+        .neon-glow-primary {
+            box-shadow: 0 0 15px rgba(0, 227, 131, 0.2);
+        }
+        .pipeline-pulse {
+            position: relative;
+        }
+        .pipeline-pulse::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 227, 131, 0.1), transparent);
+            transform: translateX(-100%);
+        }
+    </style>
+</head>
+<body class="font-body-lg overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container">
+<!-- Top Navigation -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-gutter h-16 bg-surface/60 backdrop-blur-xl border-b border-outline-variant/30">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary-fixed-dim" data-icon="terminal">terminal</span>
+<div class="flex flex-col">
+<h1 class="font-jetbrains-mono text-headline-md font-bold text-primary-fixed-dim drop-shadow-[0_0_8px_rgba(0,227,131,0.5)] uppercase tracking-tighter">APICOMERCE</h1>
+<span class="font-label-caps text-on-surface-variant opacity-70">Infrastructure for AI Consumption</span>
+</div>
+</div>
+<div class="hidden md:flex items-center gap-lg">
+<nav class="flex gap-md">
+<a class="text-primary-fixed-dim font-label-caps py-2 px-3 bg-surface-container-high rounded transition-all" href="#">Nodes</a>
+<a class="text-on-surface-variant font-label-caps py-2 px-3 hover:text-primary-fixed hover:bg-surface-container-high rounded transition-all" href="#">Traffic</a>
+<a class="text-on-surface-variant font-label-caps py-2 px-3 hover:text-primary-fixed hover:bg-surface-container-high rounded transition-all" href="#">Logs</a>
+</nav>
+<div class="h-6 w-px bg-outline-variant/30"></div>
+<span class="material-symbols-outlined text-primary-fixed-dim" data-icon="sensors">sensors</span>
+</div>
+</header>
+<!-- Side Navigation -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-[280px] bg-surface-container border-r border-outline-variant hidden md:flex flex-col py-md z-40">
+<div class="px-md mb-lg">
+<div class="flex items-center gap-md p-md bg-surface-container-low rounded-lg border border-outline-variant/20">
+<img alt="Status" class="w-10 h-10 rounded shadow-[0_0_10px_rgba(0,225,255,0.3)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuj9KGlACyAZnXE62AXtjED1UGmJFov2uVF-wHnRs1VkZW3d_I9Ygb3nNH39lPqljEZz-FfjP7zk1TxtaIaV5uKOSTqUvNg3hS0ZwxM1Hwv3LhNnNXrbUse3y3ilR82tSXu9SsdBbB62PDZkIUWFzl2Qk-pzNJRr2VPSPJ46FCBN83k_fJNTWT1QE_VyrWoPKg1YgZ1kBTkv3z_NdQezOpJfKqF-gKKuVltUQArVtR4XEk_VVFlCHQT-CCUfjyb6_Xy0bJWgurgpNz"/>
+<div>
+<p class="font-jetbrains-mono text-secondary-fixed-dim text-sm font-bold">INFRA_ROOT</p>
+<p class="text-on-surface-variant text-[10px] uppercase tracking-widest">apicommerce-v1.0.4</p>
+</div>
+</div>
+</div>
+<nav class="flex flex-col gap-xs flex-1">
+<a class="bg-secondary-container/10 text-secondary-fixed-dim border-l-4 border-secondary-fixed-dim px-4 py-3 flex items-center gap-md transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="health_and_safety">health_and_safety</span>
+<span class="font-body-lg">Cluster Health</span>
+</a>
+<a class="text-on-surface-variant px-4 py-3 flex items-center gap-md hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="alt_route">alt_route</span>
+<span class="font-body-lg">API Routing</span>
+</a>
+<a class="text-on-surface-variant px-4 py-3 flex items-center gap-md hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="data_usage">data_usage</span>
+<span class="font-body-lg">Usage Quotas</span>
+</a>
+<a class="text-on-surface-variant px-4 py-3 flex items-center gap-md hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="vpn_key">vpn_key</span>
+<span class="font-body-lg">Security Keys</span>
+</a>
+</nav>
+<div class="px-md mt-auto">
+<div class="p-md rounded-lg bg-surface-container-highest/30 border border-outline-variant/10">
+<div class="flex justify-between items-center mb-2">
+<span class="font-label-caps text-on-surface-variant">NODE STATUS</span>
+<span class="w-2 h-2 rounded-full bg-primary-fixed shadow-[0_0_8px_#00e383]"></span>
+</div>
+<p class="font-jetbrains-mono text-[10px] text-primary-fixed-dim">REGION: EU-WEST-1 (PROD)</p>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:ml-[280px] pt-24 px-gutter pb-32 min-h-screen technical-grid">
+<div class="max-w-7xl mx-auto space-y-lg">
+<!-- Hero Metrics Row -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter">
+<!-- Consumption -->
+<div class="glass-panel p-lg rounded-xl flex flex-col gap-sm neon-glow-primary">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-on-surface-variant">TOTAL TOKENS</span>
+<span class="material-symbols-outlined text-primary-fixed-dim text-sm" data-icon="bolt">bolt</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="font-stats-lg text-headline-lg text-primary-fixed-dim">12.4M</span>
+<span class="text-on-surface-variant text-xs">+14% 24h</span>
+</div>
+<div class="w-full bg-surface-container-low h-1 rounded-full overflow-hidden">
+<div class="bg-primary-fixed-dim h-full w-[65%]"></div>
+</div>
+</div>
+<!-- Cost Savings -->
+<div class="glass-panel p-lg rounded-xl flex flex-col gap-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-on-surface-variant">EST. SAVINGS</span>
+<span class="material-symbols-outlined text-secondary-fixed-dim text-sm" data-icon="savings">savings</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="font-stats-lg text-headline-lg text-secondary-fixed-dim">$3,102</span>
+<span class="text-on-surface-variant text-xs">vs Direct</span>
+</div>
+<p class="font-label-caps text-[10px] text-secondary-fixed-dim/60">OPTIMIZED ROUTING ACTIVE</p>
+</div>
+<!-- Active Model -->
+<div class="glass-panel p-lg rounded-xl flex flex-col gap-sm col-span-1 md:col-span-2">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-on-surface-variant">ACTIVE CLUSTER ROUTING</span>
+<span class="px-2 py-0.5 bg-primary-container text-on-primary-container font-label-caps text-[9px] rounded-full">OPTIMIZED</span>
+</div>
+<div class="flex items-center gap-lg mt-1">
+<div class="flex flex-col">
+<span class="text-on-surface text-sm font-semibold">Llama-3-70B</span>
+<span class="text-on-surface-variant text-xs">Primary Node</span>
+</div>
+<div class="flex-1 h-px bg-outline-variant/30 relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-r from-transparent via-primary-fixed/20 to-transparent animate-pulse"></div>
+</div>
+<div class="flex flex-col items-end">
+<span class="text-on-surface text-sm font-semibold">GPT-4o-Mini</span>
+<span class="text-on-surface-variant text-xs">Fallback Logic</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Dashboard Grid -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Latency Technical Graph Container -->
+<div class="md:col-span-8 glass-panel rounded-xl overflow-hidden flex flex-col">
+<div class="p-lg flex justify-between items-center border-b border-outline-variant/20">
+<div>
+<h3 class="font-headline-md text-primary-fixed-dim uppercase tracking-tight">Average Latency</h3>
+<p class="font-label-caps text-on-surface-variant text-[10px]">REAL-TIME SYSTEM MONITORING (ms)</p>
+</div>
+<div class="flex gap-md items-center">
+<span class="font-stats-lg text-secondary-fixed-dim">242ms</span>
+<span class="material-symbols-outlined text-secondary-fixed-dim" data-icon="query_stats">query_stats</span>
+</div>
+</div>
+<div class="flex-1 p-lg relative h-64 bg-surface-container-lowest/50">
+<!-- Mockup Graph Lines -->
+<div class="absolute inset-0 p-lg flex items-end gap-1">
+<div class="flex-1 bg-primary-fixed/20 border-t border-primary-fixed h-[40%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary-fixed/20 border-t border-primary-fixed h-[45%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary-fixed/20 border-t border-primary-fixed h-[38%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary-fixed/20 border-t border-primary-fixed h-[52%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary-fixed/40 border-t border-secondary-fixed h-[70%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary-fixed/20 border-t border-primary-fixed h-[35%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary-fixed/20 border-t border-primary-fixed h-[42%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary-fixed/20 border-t border-primary-fixed h-[38%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary-fixed/20 border-t border-primary-fixed h-[41%] rounded-t-sm"></div>
+</div>
+<!-- Grid Lines -->
+<div class="absolute inset-0 pointer-events-none border-b border-outline-variant/10 flex flex-col justify-between p-lg opacity-20">
+<div class="border-t border-outline-variant/30 w-full h-0"></div>
+<div class="border-t border-outline-variant/30 w-full h-0"></div>
+<div class="border-t border-outline-variant/30 w-full h-0"></div>
+<div class="border-t border-outline-variant/30 w-full h-0"></div>
+</div>
+</div>
+</div>
+<!-- Traffic Sources Bento -->
+<div class="md:col-span-4 flex flex-col gap-gutter">
+<div class="glass-panel p-lg rounded-xl flex-1 border-l-4 border-l-secondary-container">
+<span class="font-label-caps text-on-surface-variant">SYSTEM UPTIME</span>
+<h4 class="font-stats-lg text-secondary-fixed-dim text-3xl mt-sm">99.998%</h4>
+<p class="text-on-surface-variant text-xs mt-2">Active session: 1,421h 12m</p>
+</div>
+<div class="glass-panel p-lg rounded-xl flex-1 bg-gradient-to-br from-surface-container-high to-surface-container">
+<span class="font-label-caps text-on-surface-variant">API CONSUMPTION FLOW</span>
+<div class="mt-md space-y-4">
+<div class="flex justify-between items-center">
+<span class="font-jetbrains-mono text-[11px]">PROD_WEBSITE</span>
+<span class="font-jetbrains-mono text-[11px] text-primary-fixed">7.2M Req</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-jetbrains-mono text-[11px]">MOBILE_APP_V2</span>
+<span class="font-jetbrains-mono text-[11px] text-primary-fixed">4.1M Req</span>
+</div>
+<div class="flex justify-between items-center opacity-50">
+<span class="font-jetbrains-mono text-[11px]">TEST_STAGING</span>
+<span class="font-jetbrains-mono text-[11px] text-primary-fixed">1.1M Req</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Technical Infrastructure Visualization -->
+<div class="md:col-span-12 glass-panel rounded-xl overflow-hidden">
+<div class="grid grid-cols-1 md:grid-cols-3">
+<div class="p-lg border-r border-outline-variant/20">
+<h5 class="font-label-caps text-on-surface-variant mb-md flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-fixed-dim"></span>
+                                CLUSTER INFRASTRUCTURE
+                            </h5>
+<img alt="Data Center" class="w-full h-32 object-cover rounded grayscale hover:grayscale-0 transition-all duration-500 opacity-60" data-alt="A cinematic, high-contrast photograph of rows of advanced server racks in a dark, high-security data center. The room is filled with atmospheric blue and green neon lighting emanating from the server components, reflecting off the polished black floor. The visual style is professional, high-tech, and futuristic, emphasizing the scale and power of modern cloud infrastructure." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCE1jwWDK3keoHDHYH_yb98UT9SKLph64yn4L6Ha_7I-96_IE_uGyqjR21QedcItK3r8aozkdA-9B-015NqSRG3OsivWpzqfvsLBa21G0QPC9DHjaBuGB5uoKiR7-LcFlItqlFP_-Pjkxt1QEFaMDPBjvyJ3pFq-zWgLiyuwRgoz9QD52sACNrssYWn-sjwtkQ3uW78tBbY4bCzi9TDAzl2X80EouwZUdjhFYvHIKETrbgcYt2xCHbs8kZM4sahiG1lO_iHeg7NyXNW"/>
+</div>
+<div class="p-lg md:col-span-2 bg-surface-container-low/30">
+<div class="flex justify-between items-start mb-md">
+<span class="font-label-caps text-on-surface-variant">LOG STREAM [V1.0.4]</span>
+<span class="text-[10px] font-jetbrains-mono text-primary-fixed-dim">POLLING EVERY 2s</span>
+</div>
+<div class="space-y-1 font-jetbrains-mono text-[11px]">
+<p class="text-on-surface-variant"><span class="text-primary-fixed-dim">[12:44:21]</span> INFO: Optimized route found via Node 4-Alpha. Latency 142ms.</p>
+<p class="text-on-surface-variant"><span class="text-primary-fixed-dim">[12:44:22]</span> WARN: Rate limit approaching for GPT-4-Legacy fallback.</p>
+<p class="text-on-surface-variant"><span class="text-primary-fixed-dim">[12:44:22]</span> INFO: Token batch processed. Payload: 1.2k tokens.</p>
+<p class="text-on-surface-variant"><span class="text-primary-fixed-dim">[12:44:23]</span> INFO: Health check passed for 12/12 edge nodes.</p>
+<p class="text-secondary-fixed-dim"><span class="text-secondary-fixed-dim">[12:44:24]</span> SUCCESS: Auto-scaling triggered. New cluster provisioned.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Mobile -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-safe h-20 bg-surface-container-lowest/80 backdrop-blur-lg border-t border-secondary-container/20">
+<button class="flex flex-col items-center justify-center text-primary-fixed-dim font-bold scale-110 drop-shadow-[0_0_5px_rgba(0,227,131,0.4)]">
+<span class="material-symbols-outlined" data-icon="hub">hub</span>
+<span class="font-label-caps text-[10px]">Nodes</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant/60">
+<span class="material-symbols-outlined" data-icon="insights">insights</span>
+<span class="font-label-caps text-[10px]">Traffic</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant/60">
+<span class="material-symbols-outlined" data-icon="smart_toy">smart_toy</span>
+<span class="font-label-caps text-[10px]">Mascot</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant/60">
+<span class="material-symbols-outlined" data-icon="code">code</span>
+<span class="font-label-caps text-[10px]">Logs</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant/60">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-caps text-[10px]">Admin</span>
+</button>
+</nav>
+<!-- Contextual Floating Action Button -->
+<button class="fixed bottom-24 right-gutter md:bottom-12 md:right-12 w-14 h-14 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(0,255,148,0.3)] hover:scale-105 active:scale-95 transition-all z-50">
+<span class="material-symbols-outlined" data-icon="terminal">terminal</span>
+</button>
+</body></html>
