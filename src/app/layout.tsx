@@ -47,7 +47,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             __html: `
               if ('serviceWorker' in navigator) {
                 window.addEventListener('load', function(){
-                  navigator.serviceWorker.register('/sw.js').catch(function(){});
+                  navigator.serviceWorker.register('/sw.js').then(function(reg){
+                    if (reg && reg.update) reg.update();
+                  }).catch(function(){});
+                });
+                var reloaded = false;
+                navigator.serviceWorker.addEventListener('controllerchange', function(){
+                  if (reloaded) return;
+                  reloaded = true;
+                  window.location.reload();
+                });
+                navigator.serviceWorker.addEventListener('message', function(e){
+                  if (e && e.data && e.data.type === 'APC_RELOAD') window.location.reload();
                 });
               }
             `,
