@@ -6,6 +6,7 @@ import { MS } from "@/components/ui/MS";
 import { BottomNav } from "@/components/dashboard/Topbar";
 import { useAppStore, walletBalance } from "@/store/use-app-store";
 import { BLENDS } from "@/lib/catalog";
+import { ACCENT_TEXT } from "@/lib/accent";
 
 export default function DashboardOverview() {
   const blends = useAppStore((s) => s.blends);
@@ -104,7 +105,7 @@ export default function DashboardOverview() {
           <div className="glass-card rounded-xl p-lg flex flex-col justify-between">
             <div>
               <p className="font-label-caps text-label-caps text-on-surface-variant mb-sm uppercase">
-                Wallet Balance
+                Credit Balance
               </p>
               <p className="font-display-lg text-headline-lg text-primary mb-1">${balance.toFixed(2)}</p>
               <p className="font-jetbrains-mono text-on-surface-variant text-body-sm">
@@ -112,10 +113,10 @@ export default function DashboardOverview() {
               </p>
             </div>
             <Link
-              href="/dashboard/wallet"
+              href="/dashboard/billing"
               className="mt-md py-md bg-primary-container text-on-primary font-label-caps text-label-caps rounded uppercase hover:brightness-110 transition-all text-center"
             >
-              MANAGE WALLET
+              MANAGE BILLING
             </Link>
           </div>
         </section>
@@ -188,11 +189,11 @@ export default function DashboardOverview() {
                   className="flex items-center justify-between p-sm rounded-lg bg-surface-container-high/40 border border-outline-variant/10 hover:border-primary-fixed-dim/40 transition-colors group"
                 >
                   <div className="flex items-center gap-sm">
-                    <MS name={b.icon} className={`text-${b.accent}`} />
+                    <MS name={b.icon} className={ACCENT_TEXT[b.accent]} />
                     <span className="font-body-sm text-on-surface group-hover:text-primary">{b.name}</span>
                   </div>
-                  <span className={`font-jetbrains-mono text-[10px] text-${b.accent}`}>
-                    ${b.costPerMTok.toFixed(2)}/Mt
+                  <span className={`font-jetbrains-mono text-[10px] ${ACCENT_TEXT[b.accent]}`}>
+                    ${b.price.toFixed(2)} / {b.unit === "1M tokens" ? "Mt" : "img"}
                   </span>
                 </Link>
               ))}

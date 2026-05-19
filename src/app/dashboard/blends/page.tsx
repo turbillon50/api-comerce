@@ -76,10 +76,10 @@ export default function BlendsPage() {
                   <div className="grid grid-cols-2 gap-md mb-md">
                     <div className="bg-surface-container-lowest p-sm rounded border border-outline-variant/10">
                       <p className="font-label-caps text-label-caps text-on-surface-variant mb-xs">
-                        COST / 1M TOKENS
+                        COST / {b.unit.toUpperCase()}
                       </p>
                       <p className={`font-stats-lg text-stats-lg ${ACCENT_TEXT[b.accent]}`}>
-                        ${b.costPerMTok.toFixed(2)}
+                        ${b.price.toFixed(2)}
                       </p>
                     </div>
                     <div className="bg-surface-container-lowest p-sm rounded border border-outline-variant/10">

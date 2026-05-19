@@ -1,9 +1,15 @@
 /**
- * Canonical blends — extracted 1:1 from the Stitch designs
- * (sistema_de_blends + marketplace_de_blends_v2 + wallet_governance).
+ * Canonical APICommerce blends — four resale tiers covering the full
+ * spectrum of AI workloads: cheap bot traffic, general-purpose text,
+ * premium reasoning/code, and image generation.
+ *
+ * Each tier is a *blend* (a routing recipe across one or more upstream
+ * models) priced uniformly so a customer always knows what a call will
+ * cost regardless of which underlying provider answered.
  */
 
-export type BlendSlug = "general" | "support" | "builder" | "agent";
+export type BlendSlug = "bot" | "standard" | "pro" | "image";
+export type BlendUnit = "1M tokens" | "image";
 
 export type BlendCardCopy = {
   slug: BlendSlug;
@@ -12,64 +18,86 @@ export type BlendCardCopy = {
   description: string;
   icon: string;
   accent: "primary-fixed-dim" | "secondary-fixed-dim" | "tertiary-fixed-dim" | "primary-container";
-  costPerMTok: number;
+  price: number;
+  unit: BlendUnit;
   latencyMs: number;
-  status: "STABLE" | "SCALING" | "PREMIUM" | "ACTIVE";
+  status: "STABLE" | "POPULAR" | "PREMIUM" | "ACTIVE";
+  tier: "LOW" | "MID" | "HIGH" | "IMAGE";
   tags: string[];
+  /** Curated upstream models that participate in this blend. */
+  models: string[];
+  /** Recommended workloads. */
+  useCases: string[];
 };
 
 export const BLENDS: BlendCardCopy[] = [
   {
-    slug: "general",
-    name: "General Blend",
-    tagline: "Optimizado para tareas comunes",
+    slug: "bot",
+    name: "Bot Blend",
+    tagline: "High-volume chatbots and FAQs",
     description:
-      "Balanced configuration for everyday tasks. Optimized for a perfect ratio of speed and reasoning capability.",
+      "Cheap, fast routing for chatbot and helpdesk traffic. Optimised for sub-300ms first-token latency.",
+    icon: "support_agent",
+    accent: "secondary-fixed-dim",
+    price: 0.08,
+    unit: "1M tokens",
+    latencyMs: 220,
+    status: "POPULAR",
+    tier: "LOW",
+    tags: ["Chatbots", "Helpdesk", "FAQ", "Webhooks"],
+    models: ["Llama 3.1 8B", "GPT-4o mini", "Claude Haiku 4.5"],
+    useCases: ["Customer support bots", "Slack / Telegram replies", "Ticket triage"],
+  },
+  {
+    slug: "standard",
+    name: "Standard Blend",
+    tagline: "Everyday text and structured output",
+    description:
+      "Balanced configuration for everyday tasks. Solid reasoning, multilingual, JSON-mode out of the box.",
     icon: "hub",
     accent: "primary-fixed-dim",
-    costPerMTok: 0.15,
+    price: 0.2,
+    unit: "1M tokens",
     latencyMs: 450,
     status: "STABLE",
-    tags: ["Content Auth", "Summarization", "Chat"],
+    tier: "MID",
+    tags: ["Summarisation", "Translation", "Q&A", "Forms"],
+    models: ["GPT-4o", "Claude Sonnet 4.6", "Gemini 2.5 Pro"],
+    useCases: ["Content drafting", "Document Q&A", "Light agents"],
   },
   {
-    slug: "support",
-    name: "Support Blend",
-    tagline: "Ideal para atención al cliente",
+    slug: "pro",
+    name: "Pro Blend",
+    tagline: "Complex reasoning, code, agents",
     description:
-      "Optimized for high-volume customer queries. Specialized in empathetic response and rapid context retrieval.",
-    icon: "insights",
-    accent: "secondary-fixed-dim",
-    costPerMTok: 0.08,
-    latencyMs: 220,
-    status: "SCALING",
-    tags: ["Help Desk", "Ticket Routing", "Sentiment"],
-  },
-  {
-    slug: "builder",
-    name: "Builder Blend",
-    tagline: "Máximo rendimiento creativo",
-    description:
-      "High reasoning for code and complex architecture. Exceptional logic for software engineering tasks.",
+      "Premium tier for code generation, deep reasoning, and tool-using agents. Designed for accuracy over cost.",
     icon: "code",
     accent: "tertiary-fixed-dim",
-    costPerMTok: 1.2,
+    price: 1.2,
+    unit: "1M tokens",
     latencyMs: 1100,
     status: "PREMIUM",
-    tags: ["Refactoring", "Debugging", "DevOps"],
+    tier: "HIGH",
+    tags: ["Code", "Tool use", "Long context", "Planning"],
+    models: ["Claude Opus 4.7", "GPT-4 Turbo", "o1-preview"],
+    useCases: ["Code review", "Autonomous agents", "Research synthesis"],
   },
   {
-    slug: "agent",
-    name: "Agent Blend",
-    tagline: "Diseñado para flujos autónomos",
+    slug: "image",
+    name: "Image Blend",
+    tagline: "Generate, edit, upscale",
     description:
-      "Autonomous capability. Designed for self-correction, tool use, and multi-step orchestration flows.",
-    icon: "smart_toy",
+      "Image generation and editing across the best providers. Pricing is per finished image, no surprises.",
+    icon: "image",
     accent: "primary-container",
-    costPerMTok: 0.45,
-    latencyMs: 680,
+    price: 0.04,
+    unit: "image",
+    latencyMs: 4500,
     status: "ACTIVE",
-    tags: ["Tool Use", "Planning", "Web Search"],
+    tier: "IMAGE",
+    tags: ["Generation", "Edit", "Upscale", "Variations"],
+    models: ["DALL-E 3", "SDXL Turbo", "Imagen 3"],
+    useCases: ["Product photos", "Marketing creative", "Avatars"],
   },
 ];
 
@@ -77,14 +105,19 @@ export function blendBySlug(slug: string) {
   return BLENDS.find((b) => b.slug === slug);
 }
 
-/* Legacy export retained so existing imports in /api routes don't break. */
+/** Format a price + unit pair (e.g. "$0.20 / 1M tokens"). */
+export function formatBlendPrice(b: BlendCardCopy) {
+  return `$${b.price.toFixed(2)} / ${b.unit}`;
+}
+
+/* Legacy exports kept so existing /api routes keep typechecking. */
 export const PROVIDER_MODELS = BLENDS.map((b) => ({
   id: `apicommerce/${b.slug}`,
   name: b.name,
   provider: "openrouter" as const,
   context: 200_000,
-  inputPrice: b.costPerMTok / 2,
-  outputPrice: b.costPerMTok * 1.5,
+  inputPrice: b.unit === "1M tokens" ? b.price / 2 : 0,
+  outputPrice: b.unit === "1M tokens" ? b.price * 1.5 : b.price,
   strengths: b.tags as unknown as ("reasoning" | "speed" | "code" | "vision" | "long-context" | "cheap")[],
 }));
 

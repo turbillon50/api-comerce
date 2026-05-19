@@ -11,7 +11,7 @@ const NAV: NavItem[] = [
   { href: "/dashboard/blends", label: "API Routing", icon: "alt_route" },
   { href: "/dashboard/requests", label: "Usage Quotas", icon: "data_usage" },
   { href: "/dashboard/keys", label: "Security Keys", icon: "vpn_key" },
-  { href: "/dashboard/wallet", label: "Wallet", icon: "account_balance_wallet" },
+  { href: "/dashboard/billing", label: "Billing", icon: "credit_card" },
   { href: "/dashboard/providers", label: "Providers", icon: "hub" },
   { href: "/dashboard/agent", label: "Mascot Module", icon: "smart_toy" },
   { href: "/dashboard/docs", label: "Docs / API", icon: "code" },

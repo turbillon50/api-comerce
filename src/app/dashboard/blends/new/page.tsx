@@ -19,7 +19,7 @@ export default function NewBlendPage() {
   const [margin, setMargin] = useState(35);
   const [visibility, setVisibility] = useState<"private" | "unlisted" | "marketplace">("private");
 
-  const finalPrice = +(base.costPerMTok * (1 + margin / 100)).toFixed(2);
+  const finalPrice = +(base.price * (1 + margin / 100)).toFixed(2);
 
   function deploy() {
     upsertBlend({
@@ -97,7 +97,7 @@ export default function NewBlendPage() {
                       </div>
                       <p className="text-on-surface-variant text-body-sm">{b.tagline}</p>
                       <p className={`font-jetbrains-mono text-xs mt-sm ${ACCENT_TEXT[b.accent]}`}>
-                        ${b.costPerMTok.toFixed(2)} / 1M tokens · {b.latencyMs}ms
+                        ${b.price.toFixed(2)} / {b.unit} · {b.latencyMs}ms
                       </p>
                     </button>
                   );
@@ -141,7 +141,7 @@ export default function NewBlendPage() {
                 <div>
                   <p className="font-label-caps text-label-caps text-on-surface-variant mb-xs">COST IN</p>
                   <p className="font-stats-lg text-stats-lg text-on-surface">
-                    ${base.costPerMTok.toFixed(2)} / 1M
+                    ${base.price.toFixed(2)} / {base.unit}
                   </p>
                 </div>
                 <div>

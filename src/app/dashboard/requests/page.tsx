@@ -12,7 +12,7 @@ export default function RequestsPage() {
   const keys = useAppStore((s) => s.keys);
 
   const [prompt, setPrompt] = useState("Summarize today's anomaly logs and flag the top 3 by impact.");
-  const [selectedBlend, setSelectedBlend] = useState(BLENDS[1]); // Support Blend default
+  const [selectedBlend, setSelectedBlend] = useState(BLENDS[1]); // Standard Blend default
 
   const reqsPerMin = useMemo(() => {
     if (requests.length === 0) return 0;
@@ -23,7 +23,7 @@ export default function RequestsPage() {
   function execute() {
     const blend = selectedBlend;
     const tokens = Math.round(prompt.split(/\s+/).length * 1.4);
-    const cost = (tokens / 1_000_000) * blend.costPerMTok;
+    const cost = (tokens / 1_000_000) * blend.price;
     recordRequest({
       blendId: `apicommerce/${blend.slug}`,
       modelId: `apicommerce/${blend.slug}`,
@@ -196,7 +196,9 @@ export default function RequestsPage() {
               <div className="space-y-1">
                 <h3 className="font-label-caps text-label-caps text-on-surface-variant">EST. COST</h3>
                 <p className="font-stats-lg text-stats-lg text-primary-fixed-dim">
-                  ${((selectedBlend.costPerMTok * 1.4 * prompt.split(/\s+/).length) / 1_000_000).toFixed(6)}
+                  {selectedBlend.unit === "image"
+                    ? `$${selectedBlend.price.toFixed(2)}`
+                    : `$${((selectedBlend.price * 1.4 * prompt.split(/\s+/).length) / 1_000_000).toFixed(6)}`}
                 </p>
                 <p className="text-[10px] text-on-surface-variant/40">PER REQUEST</p>
               </div>
